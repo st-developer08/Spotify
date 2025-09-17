@@ -103,7 +103,8 @@ export function createPlayer() {
   const volumeBar = player.querySelector("#volume-bar");
 
   function updateRangeFill(rangeEl, color) {
-    const value = (rangeEl.value - rangeEl.min) / (rangeEl.max - rangeEl.min) * 100;
+    const value =
+      ((rangeEl.value - rangeEl.min) / (rangeEl.max - rangeEl.min)) * 100;
     rangeEl.style.background = `linear-gradient(to right, ${color} ${value}%, #404040 ${value}%)`;
   }
 
