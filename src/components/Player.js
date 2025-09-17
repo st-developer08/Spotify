@@ -27,13 +27,26 @@ export function createPlayer() {
       <div class="flex items-center gap-3 w-[500px]">
         <span id="current-time" class="text-gray-400 text-xs">0:00</span>
         <input 
-          id="progress-bar" 
-          type="range" 
-          min="0" 
-          max="100" 
-          value="30"
-          class="w-full appearance-none bg-[#404040] h-1 rounded-lg cursor-pointer"
-        />
+  id="progress-bar" 
+  type="range" 
+  min="0" 
+  max="100" 
+  value="30"
+  class="w-full appearance-none bg-white h-1 rounded-lg cursor-pointer 
+         [&::-webkit-slider-thumb]:appearance-none 
+         [&::-webkit-slider-thumb]:w-3 
+         [&::-webkit-slider-thumb]:h-3 
+         [&::-webkit-slider-thumb]:rounded-full 
+         [&::-webkit-slider-thumb]:bg-white 
+         [&::-webkit-slider-thumb]:opacity-100 
+         [&::-webkit-slider-thumb]:transition 
+         [&::-webkit-slider-thumb]:hover:scale-110 
+         [&::-moz-range-thumb]:w-3 
+         [&::-moz-range-thumb]:h-3 
+         [&::-moz-range-thumb]:rounded-full 
+         [&::-moz-range-thumb]:bg-white"
+/>
+
         <span id="total-time" class="text-gray-400 text-xs">3:45</span>
       </div>
     </div>
@@ -44,13 +57,25 @@ export function createPlayer() {
       <div class="flex items-center gap-2 w-[120px]">
         <img src="/svg/volume.svg" alt="volume" />
         <input 
-          id="volume-bar" 
-          type="range" 
-          min="0" 
-          max="100" 
-          value="60"
-          class="w-full appearance-none bg-[#404040] h-1 rounded-lg cursor-pointer"
-        />
+  id="volume-bar" 
+  type="range" 
+  min="0" 
+  max="100" 
+  value="60"
+  class="w-full appearance-none bg-white h-1 rounded-lg cursor-pointer
+         [&::-webkit-slider-thumb]:appearance-none
+         [&::-webkit-slider-thumb]:w-3
+         [&::-webkit-slider-thumb]:h-3
+         [&::-webkit-slider-thumb]:rounded-full
+         [&::-webkit-slider-thumb]:bg-white
+         [&::-webkit-slider-thumb]:transition
+         [&::-webkit-slider-thumb]:hover:scale-110
+         [&::-moz-range-thumb]:w-3
+         [&::-moz-range-thumb]:h-3
+         [&::-moz-range-thumb]:rounded-full
+         [&::-moz-range-thumb]:bg-white"
+/>
+
       </div>
     </div>
   `;
