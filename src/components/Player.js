@@ -44,7 +44,7 @@ export function createPlayer() {
     </style>
 
     <div class="flex items-center gap-4">
-      <img src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp" 
+      <img src="img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp" 
            class="w-14 h-14 rounded" alt="cover" />
       <div class="flex flex-col">
         <span class="text-white font-semibold">Song Name</span>
@@ -54,13 +54,13 @@ export function createPlayer() {
 
     <div class="flex flex-col items-center gap-2 flex-1">
       <div class="flex items-center gap-6">
-        <img src="./public/svg/shuffle.svg" class="w-4 h-4 cursor-pointer hover:opacity-100 opacity-70" alt="shuffle" />
-        <img src="./public/svg/prev.svg" class="w-4 h-4 cursor-pointer hover:scale-110 transition-transform" alt="prev" />
+        <img src="svg/shuffle.svg" class="w-4 h-4 cursor-pointer hover:opacity-100 opacity-70" alt="shuffle" />
+        <img src="svg/prev.svg" class="w-4 h-4 cursor-pointer hover:scale-110 transition-transform" alt="prev" />
         <button class="rounded-full p-2 hover:scale-110 transition-transform">
-          <img src="./public/svg/play-black.svg"  alt="play" />
+          <img src="svg/play-black.svg"  alt="play" />
         </button>
-        <img src="./public/svg/next.svg" class="w-4 h-4 cursor-pointer hover:scale-110 transition-transform" alt="next" />
-        <img src="./public/svg/repeat.svg" class=" cursor-pointer hover:opacity-100 opacity-70" alt="repeat" />
+        <img src="svg/next.svg" class="w-4 h-4 cursor-pointer hover:scale-110 transition-transform" alt="next" />
+        <img src="svg/repeat.svg" class=" cursor-pointer hover:opacity-100 opacity-70" alt="repeat" />
       </div>
       <div class="flex items-center gap-3 w-[500px]">
         <span id="current-time" class="text-gray-400 text-xs">0:00</span>
@@ -77,10 +77,10 @@ export function createPlayer() {
     </div>
 
     <div class="flex items-center gap-4">
-      <img src="./public/svg/playlist.svg" class="cursor-pointer hover:opacity-100 opacity-70" alt="queue" />
-      <img src="./public/svg/devices.svg" class="cursor-pointer hover:opacity-100 opacity-70" alt="device" />
+      <img src="svg/playlist.svg" class="cursor-pointer hover:opacity-100 opacity-70" alt="queue" />
+      <img src="svg/devices.svg" class="cursor-pointer hover:opacity-100 opacity-70" alt="device" />
       <div class="flex items-center gap-2 w-[120px]">
-        <img src="./public/svg/volume.svg" alt="volume" />
+        <img src="svg/volume.svg" alt="volume" />
         <input 
           id="volume-bar" 
           type="range" 
