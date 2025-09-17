@@ -1,0 +1,252 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body{
+    background-color: black;
+}
+
+*{
+    font-family: "Public Sans", sans-serif;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: 12px; 
+  position: relative; 
+  padding-right: 40px; 
+}
+
+.active-track {
+  color: #2AE439;
+}
+
+.playlist-item.active {
+  background-color: #2a2a2a;
+}
+
+.playlist-item.active .playlist-title {
+  color: #1DB954; 
+}
+
+.playlist-item.active .playlist-icon {
+  opacity: 1;
+  transform: scale(1);
+  filter: drop-shadow(0 0 8px #1DB954);
+  transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+}
+
+
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+* {
+  -ms-overflow-style: none;  
+  scrollbar-width: none;    
+}
+
+
+.active-track::after {
+  content: '';
+  position: absolute;
+  right: 10px;      
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url('../public/svg/green-sound.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.active-main-btn{
+  background-color: white;
+  color: black;
+}
+
+
+.container{
+  max-width: 1060px;
+  margin: 0 auto;
+}
+
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;  
+  scrollbar-width: none;    
+}
+
+
+.cursor-grab {
+  cursor: grab;
+}
+.cursor-grabbing {
+  cursor: grabbing;
+}
+
+
+.playlist[data-simplebar] .simplebar-scrollbar {
+  width: 20px !important; 
+  border-radius: 0 !important;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.playlist[data-simplebar] .simplebar-scrollbar:before {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0 !important; 
+}
+
+aside:hover .playlist[data-simplebar] .simplebar-scrollbar {
+  opacity: 1;
+}
+
+
+
+.track {
+  margin-bottom: 25px; 
+}
+
+.track:last-child {
+  margin-bottom: 0; 
+}
+
+
+.playlist {
+   flex: 1;              
+  overflow-y: auto;        
+  padding-right: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: calc(100% - 300px);
+  padding-right: 0;
+  padding-bottom: 100px; 
+}
+
+
+.playlist .simplebar-content {
+  overflow-x: hidden !important;
+}
+
+
+.simplebar-scrollbar:before {
+  background: #5a5a5a;
+}
+.simplebar-scrollbar.simplebar-visible:before {
+  opacity: 0.8;
+}
+
+.nav-link {
+  @apply text-gray-400;
+  position: relative;
+  width: max-content;
+  cursor: pointer;
+}
+
+.nav-link .indicator {
+  position: absolute;
+  left: -6px;
+  top: 25%;
+  bottom: 25%;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #1ed760, #1db954);
+  box-shadow: 0 0 6px #1ed760aa;
+  opacity: 0;
+  transform: scaleY(0);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link .icon {
+  filter: brightness(0) saturate(100%) invert(70%) sepia(3%) saturate(50%) hue-rotate(180deg) brightness(90%) contrast(85%);
+  transition: filter 0.4s ease, transform 0.3s ease;
+}
+
+.nav-link .label {
+  transition: color 0.4s ease, text-shadow 0.3s ease;
+}
+
+.nav-link:hover .icon {
+  filter: brightness(0) saturate(100%) invert(45%) sepia(91%) saturate(600%) hue-rotate(92deg) brightness(95%) contrast(97%);
+  transform: scale(1.12);
+}
+.nav-link:hover .label {
+  @apply text-green-400;
+  text-shadow: 0 0 2px #1ed760aa;
+}
+.nav-link:hover .indicator {
+  opacity: 0.9;
+  transform: scaleY(1);
+}
+
+.nav-link.active .icon {
+  filter: brightness(0) saturate(100%) invert(45%) sepia(91%) saturate(600%) hue-rotate(92deg) brightness(95%) contrast(97%);
+  transform: scale(1.15);
+}
+.nav-link.active .label {
+  @apply text-green-500;
+}
+.nav-link.active .indicator {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-animated {
+  background: linear-gradient(270deg, #1db954, #191414, #1db954, #191414, #8e44ad, #00d4ff);
+  background-size: 1200% 1200%;
+  animation: spotify-flow 25s ease infinite;
+}
+
+@keyframes spotify-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+
+
+
+
+
+html, body {
+  overflow: hidden;
+  height: 100%;
+}
+
+.player {
+  z-index: 9999 !important;
+}
+
+
+.filter-btn {
+  @apply text-white bg-black/40 rounded-[20px] px-[20px] py-[6px] 
+         font-bold text-[16px] transition-all duration-300 
+         hover:bg-black/60 hover:scale-105 hover:shadow-lg;
+}
+
+.active-btn {
+  @apply bg-white text-black shadow-md scale-105;
+}

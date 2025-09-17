@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="./public/icons/title-icon.png"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Simplebar -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.css"
+      rel="stylesheet"
+    />
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Swiper -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="./src/style.css" />
+
+    <title>Spotify</title>
+  </head>
+  <body class="bg-black font-['Public_Sans'] h-screen overflow-hidden">
+    <header id="header" class="flex items-center justify-between bg-black">
+      <div class="spotify-logo flex items-center gap-2">
+        <img class="w-[40px]" src="./public/svg/white.svg" alt="Spotify Logo" />
+      </div>
+
+      <nav class="flex items-center gap-2 flex-1 justify-center">
+        <button class="p-3 rounded-full bg-neutral-800 transition group">
+          <img
+            src="./public/svg/home.svg"
+            alt="home icon"
+            class="w-5 h-5 group-hover:scale-110 transition"
+          />
+        </button>
+
+        <div id="search-container" class="relative w-[480px]">
+          <span
+            class="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"
+          >
+            <img
+              src="./public/svg/search-sidebar.svg"
+              class="w-5 h-5 opacity-70"
+              alt="search icon"
+            />
+          </span>
+
+          <input
+            id="search-input"
+            type="text"
+            placeholder="What do you want to turn on?"
+            class="w-full pl-12 pr-10 py-[11px] bg-neutral-900 rounded-full focus:bg-neutral-800 outline-none placeholder-gray-300 transition-all duration-300"
+          />
+
+          <button
+            id="clear-btn"
+            class="absolute right-4 top-1/2 -translate-y-1/2 opacity-1 transition-all duration-200"
+          >
+            <img src="./public/svg/trash.svg" class="w-5 h-5" alt="Очистить" />
+          </button>
+
+          <!-- Dropdown -->
+          <div
+            id="search-dropdown"
+            class="absolute mt-2 w-full bg-neutral-900 border border-neutral-700 rounded-lg shadow-lg hidden z-50 animate-fadeIn"
+          >
+            <div class="px-4 py-3 text-sm text-gray-300 font-bold">
+              Недавние
+            </div>
+            <div
+              class="px-4 py-2 text-sm text-gray-300 hover:bg-neutral-800 cursor-pointer"
+            >
+              The Weeknd
+            </div>
+            <div
+              class="px-4 py-2 text-sm text-gray-300 hover:bg-neutral-800 cursor-pointer"
+            >
+              Drake
+            </div>
+            <div
+              class="px-4 py-2 text-sm text-gray-300 hover:bg-neutral-800 cursor-pointer"
+            >
+              Lo-Fi Beats
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="flex items-center gap-6">
+        <button
+          class="rounded-full bg-[#F2F2F2] px-5 py-2 font-bold text-[#191919] text-sm hover:scale-105 transition"
+        >
+          Explore Premium
+        </button>
+        <a href="#">
+          <img
+            class="w-[40px] h-[40px] rounded-full hover:scale-110 transition"
+            src="./public/svg/avatar.svg"
+            alt="Avatar"
+          />
+        </a>
+      </div>
+    </header>
+
+    <div
+      class="spotify-home grid grid-cols-[0.4fr_1.2fr] mt-[-8px] gap-2 h-full p-3 overflow-hidden"
+    >
+      <!-- Sidebar -->
+      <aside class="flex flex-col gap-2 w-full h-full overflow-hidden">
+        <div
+          class="bg-neutral-900 rounded-xl flex flex-col flex-1 min-h-0 overflow-hidden"
+        >
+          <!-- Library header -->
+          <div
+            class="flex items-center justify-between px-6 pt-6 mb-4 flex-shrink-0"
+          >
+            <div
+              class="flex items-center gap-3 text-sm font-semibold text-gray-400 hover:text-white transition-colors cursor-pointer"
+            >
+              <img
+                src="./public/svg/library.svg"
+                class="w-5 h-5"
+                alt="library"
+              />
+              <p class="text-xl font-bold text-white">Your Library</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <button class="hover:scale-110 transition-transform">
+                <img src="./public/svg/plus.svg" class="w-7 h-7" alt="add" />
+              </button>
+              <button class="hover:scale-110 transition-transform"></button>
+            </div>
+          </div>
+
+          <!-- Library filter buttons -->
+          <div
+            id="library-buttons"
+            class="flex gap-2 overflow-x-auto whitespace-nowrap scrollbar-hide px-6 mb-4 relative z-10 flex-shrink-0"
+          >
+            <button
+              class="px-3 py-1 text-sm rounded-full bg-neutral-800 hover:bg-neutral-700 text-white transition-colors"
+            >
+              Playlists
+            </button>
+            <button
+              class="px-3 py-1 text-sm rounded-full bg-neutral-800 hover:bg-neutral-700 text-white transition-colors"
+            >
+              Albums
+            </button>
+            <button
+              class="px-3 py-1 text-sm rounded-full bg-neutral-800 hover:bg-neutral-700 text-white transition-colors"
+            >
+              Artists
+            </button>
+            <button
+              class="px-3 py-1 text-sm rounded-full bg-neutral-800 hover:bg-neutral-700 text-white transition-colors"
+            >
+              Podcasts
+            </button>
+          </div>
+
+          <!-- Library list -->
+          <div class="flex-1 min-h-0 px-6" data-simplebar>
+            <ul class="flex flex-col">
+              <!-- Example playlist item -->
+              <li
+                class="playlist-item flex items-center justify-between gap-3 cursor-pointer hover:bg-neutral-800 p-2 rounded-lg transition-colors"
+              >
+                <div class="flex items-center gap-3">
+                  <img
+                    src="./public/svg/liked-song.svg"
+                    alt="cover"
+                    class="w-12 h-12 rounded"
+                  />
+                  <div class="flex flex-col">
+                    <span class="playlist-title text-white font-medium"
+                      >Liked Songs</span
+                    >
+                    <span class="text-gray-400 text-sm"
+                      >Playlist · Spotify</span
+                    >
+                  </div>
+                </div>
+                <img
+                  src="./public/svg/play.svg"
+                  class="playlist-icon w-16 h-16 opacity-0 transition-opacity"
+                  alt="play"
+                />
+              </li>
+              <li
+                class="playlist-item flex items-center justify-between gap-3 cursor-pointer hover:bg-neutral-800 p-2 rounded-lg transition-colors"
+              >
+                <div class="flex items-center gap-3">
+                  <img
+                    src="./public/svg/liked-song.svg"
+                    alt="cover"
+                    class="w-12 h-12 rounded"
+                  />
+                  <div class="flex flex-col">
+                    <span class="playlist-title text-white font-medium"
+                      >Liked Songs</span
+                    >
+                    <span class="text-gray-400 text-sm"
+                      >Playlist · Spotify</span
+                    >
+                  </div>
+                </div>
+                <img
+                  src="./public/svg/play.svg"
+                  class="playlist-icon w-16 h-16 opacity-0 transition-opacity"
+                  alt="play"
+                />
+              </li>
+              <li
+                class="playlist-item flex items-center justify-between gap-3 cursor-pointer hover:bg-neutral-800 p-2 rounded-lg transition-colors"
+              >
+                <div class="flex items-center gap-3">
+                  <img
+                    src="./public/svg/liked-song.svg"
+                    alt="cover"
+                    class="w-12 h-12 rounded"
+                  />
+                  <div class="flex flex-col">
+                    <span class="playlist-title text-white font-medium"
+                      >Liked Songs</span
+                    >
+                    <span class="text-gray-400 text-sm"
+                      >Playlist · Spotify</span
+                    >
+                  </div>
+                </div>
+                <img
+                  src="./public/svg/play.svg"
+                  class="playlist-icon w-16 h-16 opacity-0 transition-opacity"
+                  alt="play"
+                />
+              </li>
+              <li
+                class="playlist-item flex items-center justify-between gap-3 cursor-pointer hover:bg-neutral-800 p-2 rounded-lg transition-colors"
+              >
+                <div class="flex items-center gap-3">
+                  <img
+                    src="./public/svg/liked-song.svg"
+                    alt="cover"
+                    class="w-12 h-12 rounded"
+                  />
+                  <div class="flex flex-col">
+                    <span class="playlist-title text-white font-medium"
+                      >Liked Songs</span
+                    >
+                    <span class="text-gray-400 text-sm"
+                      >Playlist · Spotify</span
+                    >
+                  </div>
+                </div>
+                <img
+                  src="./public/svg/play.svg"
+                  class="playlist-icon w-16 h-16 opacity-0 transition-opacity"
+                  alt="play"
+                />
+              </li>
+              <li
+                class="playlist-item flex items-center justify-between gap-3 cursor-pointer hover:bg-neutral-800 p-2 rounded-lg transition-colors"
+              >
+                <div class="flex items-center gap-3">
+                  <img
+                    src="./public/svg/liked-song.svg"
+                    alt="cover"
+                    class="w-12 h-12 rounded"
+                  />
+                  <div class="flex flex-col">
+                    <span class="playlist-title text-white font-medium"
+                      >Liked Songs</span
+                    >
+                    <span class="text-gray-400 text-sm"
+                      >Playlist · Spotify</span
+                    >
+                  </div>
+                </div>
+                <img
+                  src="./public/svg/play.svg"
+                  class="playlist-icon w-16 h-16 opacity-0 transition-opacity"
+                  alt="play"
+                />
+              </li>
+              <li
+                class="playlist-item flex items-center justify-between gap-3 cursor-pointer hover:bg-neutral-800 p-2 rounded-lg transition-colors"
+              >
+                <div class="flex items-center gap-3">
+                  <img
+                    src="./public/svg/liked-song.svg"
+                    alt="cover"
+                    class="w-12 h-12 rounded"
+                  />
+                  <div class="flex flex-col">
+                    <span class="playlist-title text-white font-medium"
+                      >Liked Songs</span
+                    >
+                    <span class="text-gray-400 text-sm"
+                      >Playlist · Spotify</span
+                    >
+                  </div>
+                </div>
+                <img
+                  src="./public/svg/play.svg"
+                  class="playlist-icon w-16 h-16 opacity-0 transition-opacity"
+                  alt="play"
+                />
+              </li>
+              <li
+                class="playlist-item flex items-center justify-between gap-3 cursor-pointer hover:bg-neutral-800 p-2 rounded-lg transition-colors"
+              >
+                <div class="flex items-center gap-3">
+                  <img
+                    src="./public/svg/liked-song.svg"
+                    alt="cover"
+                    class="w-12 h-12 rounded"
+                  />
+                  <div class="flex flex-col">
+                    <span class="playlist-title text-white font-medium"
+                      >Liked Songs</span
+                    >
+                    <span class="text-gray-400 text-sm"
+                      >Playlist · Spotify</span
+                    >
+                  </div>
+                </div>
+                <img
+                  src="./public/svg/play.svg"
+                  class="playlist-icon w-16 h-16 opacity-0 transition-opacity"
+                  alt="play"
+                />
+              </li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <main class="home-center h-full rounded-xl flex flex-col overflow-hidden">
+        <!-- Header -->
+
+        <div class="convert overflow-y-auto">
+          <div class="rounded-xl p-4 bg-animated text-white mb-2 flex-shrink-0">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center gap-3"></div>
+            </div>
+
+            <div class="flex mb-5 items-center gap-2">
+              <button class="filter-btn active-btn">Все</button>
+              <button class="filter-btn">Музыка</button>
+              <button class="filter-btn">Подкасты</button>
+            </div>
+
+            <!-- Top tracks -->
+            <div class="grid grid-cols-3 gap-2 mb-4 mt-6">
+              <div
+                class="track-header flex items-center rounded-md overflow-hidden cursor-pointer group relative bg-black/40 hover:bg-black/50 transition-all duration-300 hover:shadow-lg hover:shadow-black/40"
+              >
+                <img
+                  src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                  alt=""
+                  class="w-[55px] h-[55px] object-cover rounded-md transition duration-300 ease-in-out group-hover:scale-105"
+                />
+                <div
+                  class="flex w-full items-center h-[55px] px-4 font-bold text-white text-base truncate"
+                >
+                  ZXCURSED
+                </div>
+                <div
+                  class="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out flex items-center justify-center"
+                >
+                  <img
+                    src="./public/svg/play.svg"
+                    alt="play"
+                    class="w-12 h-12 drop-shadow-[0_0_10px_rgba(0,255,130,0.7)] hover:scale-110 transition-transform"
+                  />
+                </div>
+              </div>
+              <div
+                class="track-header flex items-center rounded-md overflow-hidden cursor-pointer group relative bg-black/40 hover:bg-black/50 transition-all duration-300 hover:shadow-lg hover:shadow-black/40"
+              >
+                <img
+                  src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                  alt=""
+                  class="w-[55px] h-[55px] object-cover rounded-md transition duration-300 ease-in-out group-hover:scale-105"
+                />
+                <div
+                  class="flex w-full items-center h-[55px] px-4 font-bold text-white text-base truncate"
+                >
+                  ZXCURSED
+                </div>
+                <div
+                  class="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out flex items-center justify-center"
+                >
+                  <img
+                    src="./public/svg/play.svg"
+                    alt="play"
+                    class="w-12 h-12 drop-shadow-[0_0_10px_rgba(0,255,130,0.7)] hover:scale-110 transition-transform"
+                  />
+                </div>
+              </div>
+              <div
+                class="track-header flex items-center rounded-md overflow-hidden cursor-pointer group relative bg-black/40 hover:bg-black/50 transition-all duration-300 hover:shadow-lg hover:shadow-black/40"
+              >
+                <img
+                  src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                  alt=""
+                  class="w-[55px] h-[55px] object-cover rounded-md transition duration-300 ease-in-out group-hover:scale-105"
+                />
+                <div
+                  class="flex w-full items-center h-[55px] px-4 font-bold text-white text-base truncate"
+                >
+                  ZXCURSED
+                </div>
+                <div
+                  class="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out flex items-center justify-center"
+                >
+                  <img
+                    src="./public/svg/play.svg"
+                    alt="play"
+                    class="w-12 h-12 drop-shadow-[0_0_10px_rgba(0,255,130,0.7)] hover:scale-110 transition-transform"
+                  />
+                </div>
+              </div>
+              <div
+                class="track-header flex items-center rounded-md overflow-hidden cursor-pointer group relative bg-black/40 hover:bg-black/50 transition-all duration-300 hover:shadow-lg hover:shadow-black/40"
+              >
+                <img
+                  src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                  alt=""
+                  class="w-[55px] h-[55px] object-cover rounded-md transition duration-300 ease-in-out group-hover:scale-105"
+                />
+                <div
+                  class="flex w-full items-center h-[55px] px-4 font-bold text-white text-base truncate"
+                >
+                  ZXCURSED
+                </div>
+                <div
+                  class="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out flex items-center justify-center"
+                >
+                  <img
+                    src="./public/svg/play.svg"
+                    alt="play"
+                    class="w-12 h-12 drop-shadow-[0_0_10px_rgba(0,255,130,0.7)] hover:scale-110 transition-transform"
+                  />
+                </div>
+              </div>
+              <div
+                class="track-header flex items-center rounded-md overflow-hidden cursor-pointer group relative bg-black/40 hover:bg-black/50 transition-all duration-300 hover:shadow-lg hover:shadow-black/40"
+              >
+                <img
+                  src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                  alt=""
+                  class="w-[55px] h-[55px] object-cover rounded-md transition duration-300 ease-in-out group-hover:scale-105"
+                />
+                <div
+                  class="flex w-full items-center h-[55px] px-4 font-bold text-white text-base truncate"
+                >
+                  ZXCURSED
+                </div>
+                <div
+                  class="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out flex items-center justify-center"
+                >
+                  <img
+                    src="./public/svg/play.svg"
+                    alt="play"
+                    class="w-12 h-12 drop-shadow-[0_0_10px_rgba(0,255,130,0.7)] hover:scale-110 transition-transform"
+                  />
+                </div>
+              </div>
+              <div
+                class="track-header flex items-center rounded-md overflow-hidden cursor-pointer group relative bg-black/40 hover:bg-black/50 transition-all duration-300 hover:shadow-lg hover:shadow-black/40"
+              >
+                <img
+                  src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                  alt=""
+                  class="w-[55px] h-[55px] object-cover rounded-md transition duration-300 ease-in-out group-hover:scale-105"
+                />
+                <div
+                  class="flex w-full items-center h-[55px] px-4 font-bold text-white text-base truncate"
+                >
+                  ZXCURSED
+                </div>
+                <div
+                  class="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out flex items-center justify-center"
+                >
+                  <img
+                    src="./public/svg/play.svg"
+                    alt="play"
+                    class="w-12 h-12 drop-shadow-[0_0_10px_rgba(0,255,130,0.7)] hover:scale-110 transition-transform"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Playlists section -->
+          <div
+            class="rounded-xl p-4 flex-1 bg-neutral-900 pb-40"
+            data-simplebar
+          >
+            <div class="flex justify-between mb-6 items-center">
+              <h3 class="text-3xl font-bold text-white">Playlists for you</h3>
+              <a
+                class="font-bold text-sm text-gray-300 hover:underline"
+                href="#"
+              >
+                Show all
+              </a>
+            </div>
+
+            <div class="grid grid-cols-5 gap-6">
+              <!-- Card -->
+              <div
+                class="group relative flex flex-col bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors cursor-pointer"
+              >
+                <div class="relative">
+                  <img
+                    src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                    class="rounded-md mb-4 w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <!-- Play button -->
+                  <button
+                    class="absolute bottom-5 right-1 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-green-500 rounded-full p-3 shadow-lg hover:scale-110 playlist-icon"
+                    style="
+                      box-shadow: 0 0 12px rgba(29, 185, 84, 0.8),
+                        0 0 24px rgba(29, 185, 84, 0.6);
+                    "
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="black"
+                      class="w-6 h-6"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <span class="text-white font-semibold truncate"
+                  >Chill Vibes</span
+                >
+                <span class="text-gray-400 text-sm truncate pb-2"
+                  >Playlist · Spotify</span
+                >
+              </div>
+              <div
+                class="group relative flex flex-col bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors cursor-pointer"
+              >
+                <div class="relative">
+                  <img
+                    src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                    class="rounded-md mb-4 w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <!-- Play button -->
+                  <button
+                    class="absolute bottom-5 right-1 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-green-500 rounded-full p-3 shadow-lg hover:scale-110 playlist-icon"
+                    style="
+                      box-shadow: 0 0 12px rgba(29, 185, 84, 0.8),
+                        0 0 24px rgba(29, 185, 84, 0.6);
+                    "
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="black"
+                      class="w-6 h-6"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <span class="text-white font-semibold truncate"
+                  >Chill Vibes</span
+                >
+                <span class="text-gray-400 text-sm truncate"
+                  >Playlist · Spotify</span
+                >
+              </div>
+              <div
+                class="group relative flex flex-col bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors cursor-pointer"
+              >
+                <div class="relative">
+                  <img
+                    src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                    class="rounded-md mb-4 w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <!-- Play button -->
+                  <button
+                    class="absolute bottom-5 right-1 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-green-500 rounded-full p-3 shadow-lg hover:scale-110 playlist-icon"
+                    style="
+                      box-shadow: 0 0 12px rgba(29, 185, 84, 0.8),
+                        0 0 24px rgba(29, 185, 84, 0.6);
+                    "
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="black"
+                      class="w-6 h-6"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <span class="text-white font-semibold truncate"
+                  >Chill Vibes</span
+                >
+                <span class="text-gray-400 text-sm truncate"
+                  >Playlist · Spotify</span
+                >
+              </div>
+              <div
+                class="group relative flex flex-col bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors cursor-pointer"
+              >
+                <div class="relative">
+                  <img
+                    src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                    class="rounded-md mb-4 w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <!-- Play button -->
+                  <button
+                    class="absolute bottom-5 right-1 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-green-500 rounded-full p-3 shadow-lg hover:scale-110 playlist-icon"
+                    style="
+                      box-shadow: 0 0 12px rgba(29, 185, 84, 0.8),
+                        0 0 24px rgba(29, 185, 84, 0.6);
+                    "
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="black"
+                      class="w-6 h-6"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <span class="text-white font-semibold truncate"
+                  >Chill Vibes</span
+                >
+                <span class="text-gray-400 text-sm truncate"
+                  >Playlist · Spotify</span
+                >
+              </div>
+              <div
+                class="group relative flex flex-col bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors cursor-pointer"
+              >
+                <div class="relative">
+                  <img
+                    src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                    class="rounded-md mb-4 w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <!-- Play button -->
+                  <button
+                    class="absolute bottom-5 right-1 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-green-500 rounded-full p-3 shadow-lg hover:scale-110 playlist-icon"
+                    style="
+                      box-shadow: 0 0 12px rgba(29, 185, 84, 0.8),
+                        0 0 24px rgba(29, 185, 84, 0.6);
+                    "
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="black"
+                      class="w-6 h-6"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <span class="text-white font-semibold truncate"
+                  >Chill Vibes</span
+                >
+                <span class="text-gray-400 text-sm truncate"
+                  >Playlist · Spotify</span
+                >
+              </div>
+
+              <div
+                class="group relative flex flex-col bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors cursor-pointer"
+              >
+                <div class="relative">
+                  <img
+                    src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                    class="rounded-md mb-4 w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <!-- Play button -->
+                  <button
+                    class="absolute bottom-5 right-1 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-green-500 rounded-full p-3 shadow-lg hover:scale-110 playlist-icon"
+                    style="
+                      box-shadow: 0 0 12px rgba(29, 185, 84, 0.8),
+                        0 0 24px rgba(29, 185, 84, 0.6);
+                    "
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="black"
+                      class="w-6 h-6"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <span class="text-white font-semibold truncate"
+                  >Chill Vibes</span
+                >
+                <span class="text-gray-400 text-sm truncate"
+                  >Playlist · Spotify</span
+                >
+              </div>
+
+              <div
+                class="group relative flex flex-col bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors cursor-pointer"
+              >
+                <div class="relative">
+                  <img
+                    src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                    class="rounded-md mb-4 w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <!-- Play button -->
+                  <button
+                    class="absolute bottom-5 right-1 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-green-500 rounded-full p-3 shadow-lg hover:scale-110 playlist-icon"
+                    style="
+                      box-shadow: 0 0 12px rgba(29, 185, 84, 0.8),
+                        0 0 24px rgba(29, 185, 84, 0.6);
+                    "
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="black"
+                      class="w-6 h-6"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <span class="text-white font-semibold truncate"
+                  >Chill Vibes</span
+                >
+                <span class="text-gray-400 text-sm truncate"
+                  >Playlist · Spotify</span
+                >
+              </div>
+              <div
+                class="group relative flex flex-col bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors cursor-pointer"
+              >
+                <div class="relative">
+                  <img
+                    src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                    class="rounded-md mb-4 w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <!-- Play button -->
+                  <button
+                    class="absolute bottom-5 right-1 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-green-500 rounded-full p-3 shadow-lg hover:scale-110 playlist-icon"
+                    style="
+                      box-shadow: 0 0 12px rgba(29, 185, 84, 0.8),
+                        0 0 24px rgba(29, 185, 84, 0.6);
+                    "
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="black"
+                      class="w-6 h-6"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <span class="text-white font-semibold truncate"
+                  >Chill Vibes</span
+                >
+                <span class="text-gray-400 text-sm truncate"
+                  >Playlist · Spotify</span
+                >
+              </div>
+
+              <div
+                class="group relative flex flex-col bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors cursor-pointer"
+              >
+                <div class="relative">
+                  <img
+                    src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                    class="rounded-md mb-4 w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <!-- Play button -->
+                  <button
+                    class="absolute bottom-5 right-1 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-green-500 rounded-full p-3 shadow-lg hover:scale-110 playlist-icon"
+                    style="
+                      box-shadow: 0 0 12px rgba(29, 185, 84, 0.8),
+                        0 0 24px rgba(29, 185, 84, 0.6);
+                    "
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="black"
+                      class="w-6 h-6"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <span class="text-white font-semibold truncate"
+                  >Chill Vibes</span
+                >
+                <span class="text-gray-400 text-sm truncate"
+                  >Playlist · Spotify</span
+                >
+              </div>
+
+              <div
+                class="group relative flex flex-col bg-neutral-800 rounded-lg p-4 hover:bg-neutral-700 transition-colors cursor-pointer"
+              >
+                <div class="relative">
+                  <img
+                    src="./public/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp"
+                    class="rounded-md mb-4 w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <!-- Play button -->
+                  <button
+                    class="absolute bottom-5 right-1 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 bg-green-500 rounded-full p-3 shadow-lg hover:scale-110 playlist-icon"
+                    style="
+                      box-shadow: 0 0 12px rgba(29, 185, 84, 0.8),
+                        0 0 24px rgba(29, 185, 84, 0.6);
+                    "
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="black"
+                      class="w-6 h-6"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <span class="text-white font-semibold truncate"
+                  >Chill Vibes</span
+                >
+                <span class="text-gray-400 text-sm truncate"
+                  >Playlist · Spotify</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Player -->
+    <div id="player"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
