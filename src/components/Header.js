@@ -5,13 +5,13 @@ export function createHeader(){
 
     header.innerHTML = `
               <div class="spotify-logo flex items-center gap-2">
-        <img class="w-[40px]" src="../../public/svg/white.svg" alt="Spotify Logo" />
+        <img class="w-[40px]" src="/svg/white.svg" alt="Spotify Logo" />
       </div>
 
       <nav class="flex items-center gap-2 flex-1 justify-center">
         <button class="p-3 rounded-full bg-neutral-800 transition group">
           <img
-            src="../../public/svg/home.svg"
+            src="/svg/home.svg"
             alt="home icon"
             class="w-5 h-5 group-hover:scale-110 transition"
           />
@@ -22,7 +22,7 @@ export function createHeader(){
             class="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"
           >
             <img
-              src="../../public/svg/search-sidebar.svg"
+              src="/svg/search-sidebar.svg"
               class="w-5 h-5 opacity-70"
               alt="search icon"
             />
@@ -39,7 +39,7 @@ export function createHeader(){
             id="clear-btn"
             class="absolute right-4 top-1/2 -translate-y-1/2 opacity-1 transition-all duration-200"
           >
-            <img src="../../public/svg/trash.svg" class="w-5 h-5" alt="Очистить" />
+            <img src="/svg/trash.svg" class="w-5 h-5" alt="Очистить" />
           </button>
 
           <!-- Dropdown -->
@@ -78,7 +78,7 @@ export function createHeader(){
         <a href="#">
           <img
             class="w-[40px] h-[40px] rounded-full hover:scale-110 transition"
-            src="../../public/svg/avatar.svg"
+            src="/svg/avatar.svg"
             alt="Avatar"
           />
         </a>
