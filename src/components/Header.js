@@ -75,6 +75,8 @@ export function createHeader(){
         >
           Explore Premium
         </button>
+        
+
         <a href="#">
           <img
             class="w-[40px] h-[40px] rounded-full hover:scale-110 transition"

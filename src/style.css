@@ -250,3 +250,4 @@ html, body {
 .active-btn {
   @apply bg-white text-black shadow-md scale-105;
 }
+

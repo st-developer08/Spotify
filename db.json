@@ -1,3 +1,81 @@
 {
-    "callback":[]
+  "sidebarTracks": [
+    {
+      "id": 1,
+      "title": "ZXCURSED",
+      "artist": "Cursed",
+      "cover": "/img/ab67706c0000d72c7566f92df6b11f62825ffd9d.webp",
+      "file": "/music/все песни shadowraze + zxcursed.m4a"
+    },
+    {
+      "id": 2,
+      "title": "All want is you",
+      "artist": "Rebzyyx",
+      "cover": "/img/all want is you.webp",
+      "file": "/music/Rebzyyx - all i want is you _Official Audio_.mp3"
+    },
+    {
+      "id": 3,
+      "title": "AURA SONGS",
+      "artist": "Phonk",
+      "cover": "/img/AURA SONGS.webp",
+      "file": "/music/MONTAGEM_BATCHI_Super_Slowed_+_Reverb_BRAZILIAN_PHONK_5BupLl_X.m4a"
+    },
+    {
+      "id": 4,
+      "title": "Nuts",
+      "artist": "Lil Peep",
+      "cover": "/img/lil peep.webp",
+      "file": "/music/Lil_Peep_nuts_feat_rainy_bear_Official_Audio_osPq9Yb8xm8.m4a"
+    },
+    {
+      "id": 5,
+      "title": "METAMORPHOSIS",
+      "artist": "metamorph",
+      "cover": "/img/metamorphosis 1 hour.jpg",
+      "file": "/music/INTERWORLD_METAMORPHOSIS-[317RHaFF7Xk].m4a"
+    },
+    {
+      "id": 6,
+      "title": "ShO`nen",
+      "artist": "Rebzyyx",
+      "cover": "/img/shonen.jpg",
+      "file": "/music/廻廻奇譚 - Eve MV(Live Film ver).m4a"
+    },
+    {
+      "id": 7,
+      "title": "JUDAS",
+      "artist": "Lady Gaga",
+      "cover": "/img/judas.jpg",
+      "file": "/music/JUDAS x GOJO vs SUKUNA _ EPIC BATTLE _ ANIME VOICES _Jujutsu Kai.mp3"
+    },
+    {
+      "id": 8,
+      "title": "Starboy",
+      "artist": "The WEEKND",
+      "cover": "/img/weeknd.jpg",
+      "file": "/music/The_Weeknd_JENNIE_Lily_Rose_Depp_One_Of_The_Girls_Official_Vid.m4a"
+    },
+    {
+      "id": 9,
+      "title": "Who am I?",
+      "artist": "WUTIWANT",
+      "cover": "/img/wutiwant.jpg",
+      "file": "/music/K1LLGRAIN, saraunh0ly - wutiwant (K1LLGRAIN REMIX).m4a"
+    },
+    {
+      "id": 10,
+      "title": "Die with a Smile",
+      "artist": "Lady Gaga",
+      "cover": "/img/diewithasmile.webp",
+      "file": "/music/Lady_Gaga_Bruno_Mars_Die_With_A_Smile_Official_Music_Video_kP.m4a"
+    },
+    {
+      "id": 10,
+      "title": "Heavy Love",
+      "artist": "Odetari",
+      "cover": "/img/odetari.webp",
+      "file": "/music/Odetari - Heavy Love (Official Audio).m4a"
+    }
+  ]
 }
