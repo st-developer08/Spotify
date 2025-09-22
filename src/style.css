@@ -390,3 +390,15 @@ html, body {
   pointer-events: auto !important;
   transform: scale(1) !important;
 }
+
+
+.custom-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: #1db954; /* Spotify green */
+  border-radius: 9999px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}

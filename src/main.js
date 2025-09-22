@@ -7,8 +7,6 @@ import { createHeader } from "./components/Header";
 import { createPlaylists } from "./components/Playlists";
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Создаём хедер и плеер
-  createHeader();
   createPlayer();
   createSidebar()
   createPlaylists()

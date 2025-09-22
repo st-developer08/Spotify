@@ -1,12 +1,14 @@
+// src/components/Sidebar.js
 import db from "../../db.json";
 import "../../src/style.css";
+import { openSongsPage } from "../pages/songs.js";
 
 export function createSidebar() {
   const sidebar = document.querySelector("#sidebar");
   sidebar.className = "flex flex-col gap-2 w-full h-full overflow-hidden";
 
   sidebar.innerHTML = `
-    <div class="bg-neutral-900 rounded-xl pb-36 flex flex-col flex-1 min-h-0 overflow-hidden">
+    <div class="bg-neutral-900 rounded-xl pb-[100px] flex flex-col flex-1 min-h-0 overflow-hidden">
       <div class="flex items-center justify-between px-6 pt-6 mb-4 flex-shrink-0">
         <div class="flex items-center gap-3 text-sm font-semibold text-gray-400 hover:text-white transition-colors cursor-pointer">
           <img src="/svg/library.svg" class="w-5 h-5" alt="library" />
@@ -47,15 +49,16 @@ export function createSidebar() {
           <path d="M8 5v14l11-7z"/>
         </svg>
         <div class="equalizer hidden" aria-hidden="true">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
         </div>
       </div>
     `;
 
     li.addEventListener("click", () => {
+      // 1) открываем songs view
+      openSongsPage(track.id, { playlist: db.sidebarTracks, index: db.sidebarTracks.findIndex(t => t.id === track.id), autoplay: false });
+
+      // 2) ставим и запускаем в плеере
       const index = db.sidebarTracks.findIndex((t) => t.id === track.id);
       if (typeof window.setPlaylist === "function") {
         window.setPlaylist(db.sidebarTracks, false);
@@ -63,6 +66,8 @@ export function createSidebar() {
       if (typeof window.playTrack === "function") {
         window.playTrack(index);
       }
+
+      // визуал для sidebar
       clearSidebarPlaying();
       const btn = li.querySelector(".play-button");
       btn.classList.add("playing", "opacity-100");

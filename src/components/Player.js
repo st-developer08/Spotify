@@ -1,3 +1,4 @@
+// src/components/player.js
 export function createPlayer(initialTracks = []) {
   const prevPlayer = document.querySelector(".player");
   if (prevPlayer) prevPlayer.remove();
@@ -33,6 +34,7 @@ export function createPlayer(initialTracks = []) {
     <div class="flex flex-col items-center gap-3 flex-1">
       <div class="flex items-center gap-7 text-white">
         <button id="random-btn" class="rounded-full w-10 h-10 flex items-center justify-center transition-colors">
+          <!-- original shuffle/random svg -->
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5">
             <path d="M13.151.922a.75.75 0 1 0-1.06 1.06L13.109 3H11.16a3.75 3.75 0 0 0-2.873 1.34l-6.173 7.356A2.25 2.25 0 0 1 .39 12.5H0V14h.391a3.75 3.75 0 0 0 2.873-1.34l6.173-7.356a2.25 2.25 0 0 1 1.724-.804h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 3.75zM.391 3.5H0V2h.391c1.109 0 2.16.49 2.873 1.34L4.89 5.277l-.979 1.167-1.796-2.14A2.25 2.25 0 0 0 .39 3.5z"/>
             <path d="m7.5 10.723.98-1.167.957 1.14a2.25 2.25 0 0 0 1.724.804h1.947l-1.017-1.018a.75.75 0 1 1 1.06-1.06l2.829 2.828-2.829 2.828a.75.75 0 1 1-1.06-1.06L13.109 13H11.16a3.75 3.75 0 0 1-2.873-1.34l-.787-.938z"/>
@@ -40,6 +42,7 @@ export function createPlayer(initialTracks = []) {
         </button>
 
         <button id="prev" class="rounded-full w-12 h-12 flex items-center justify-center text-gray-300 hover:text-[#1DB954] transition-all hover:scale-110">
+          <!-- original prev svg -->
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-6 h-6">
             <path d="M3.3 1a.7.7 0 0 1 .7.7v5.15l9.95-5.744a.7.7 0 0 1 1.05.606v12.575a.7.7 0 0 1-1.05.607L4 9.149V14.3a.7.7 0 0 1-.7.7H1.7a.7.7 0 0 1-.7-.7V1.7a.7.7 0 0 1 .7-.7z"/>
           </svg>
@@ -52,12 +55,14 @@ export function createPlayer(initialTracks = []) {
         </button>
 
         <button id="next" class="rounded-full w-12 h-12 flex items-center justify-center text-gray-300 hover:text-[#1DB954] transition-all hover:scale-110">
+          <!-- original next svg -->
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-6 h-6">
             <path d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.107A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 .7.7h1.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7z"/>
           </svg>
         </button>
 
         <button id="repeat-btn" class="rounded-full w-10 h-10 flex items-center justify-center transition-all">
+          <!-- original repeat svg -->
           <svg id="repeat-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6" viewBox="0 0 24 24">
             <path d="M17 1l4 4-4 4V6H7a3 3 0 0 0-3 3v2H2V9a5 5 0 0 1 5-5h10V1zM7 23l-4-4 4-4v3h10a3 3 0 0 0 3-3v-2h2v2a5 5 0 0 1-5 5H7v3z"/>
           </svg>
@@ -73,6 +78,7 @@ export function createPlayer(initialTracks = []) {
     </div>
 
     <div class="flex items-center gap-4 w-[170px]">
+      <!-- original volume svg -->
       <svg id="volume-icon" xmlns="http://www.w3.org/2000/svg" 
            fill="currentColor" class="w-14 h-14 text-gray-200 transition-colors" viewBox="0 0 23 23">
         <path d="M4 9v6h4l5 5V4L8 9H4z"/>
@@ -142,10 +148,25 @@ export function createPlayer(initialTracks = []) {
       volumeIcon.innerHTML = `<path d="M16.5 12L19 14.5l1.5-1.5L19 11l-2.5 2.5zM4 9v6h4l5 5V4L8 9H4z" />`;
     } else if (volNum <= 30) {
       volumeIcon.innerHTML = `<path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M14.5 12c0 .8-.4 1.5-1 2"/></svg>`;
+      // NOTE: the original had a short ornamental path; kept as-is but cleaned up if needed
+      // If you want a different small-wave shape, I'll adjust it.
     } else if (volNum <= 70) {
       volumeIcon.innerHTML = `<path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M14 8v8c1-0.7 2-1.8 2-4s-1-3.3-2-4z"/>`;
     } else {
       volumeIcon.innerHTML = `<path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M15 7v10c2-1.6 3-3.8 3-5s-1-3.4-3-5z"/><path d="M18.5 5.5l1 1"/>`;
+    }
+  }
+
+  function dispatchTrackChange() {
+    try {
+      const data = {
+        playlist: playlist.slice(), // shallow copy
+        index: currentIndex,
+        track: playlist[currentIndex] || null
+      };
+      document.dispatchEvent(new CustomEvent("player:trackChange", { detail: data }));
+    } catch (e) {
+      console.warn("dispatchTrackChange failed", e);
     }
   }
 
@@ -163,6 +184,8 @@ export function createPlayer(initialTracks = []) {
       if (typeof window.__clearTopEqualizer === "function") {
         window.__clearTopEqualizer();
       }
+      // dispatch to notify UI that no track loaded
+      dispatchTrackChange();
       return;
     }
 
@@ -183,6 +206,9 @@ export function createPlayer(initialTracks = []) {
     currentTimeEl.textContent = "0:00";
     totalTimeEl.textContent = "0:00";
     audio.loop = repeatMode === 2;
+
+    // оповестим UI о смене трека (playlist + index + track)
+    dispatchTrackChange();
 
     if (autoplay) {
       audio.play()
@@ -250,6 +276,7 @@ export function createPlayer(initialTracks = []) {
       if (typeof window.__clearTopEqualizer === "function") {
         window.__clearTopEqualizer();
       }
+      return;
     }
   });
 
