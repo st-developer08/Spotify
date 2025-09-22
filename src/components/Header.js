@@ -5,7 +5,7 @@ export function createHeader(){
 
     header.innerHTML = `
               <div class="spotify-logo flex items-center gap-2">
-        <img class="w-[40px]" src="/svg/white.svg" alt="Spotify Logo" />
+        <a href="./src/pages/songs.html"><img class="w-[40px]" src="/svg/white.svg" alt="Spotify Logo" /></a>
       </div>
 
       <nav class="flex items-center gap-2 flex-1 justify-center">

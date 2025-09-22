@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/icons/title-icon.png" />
+    <title>Liked Songs</title>
+
+    <!-- Шрифт -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Стили -->
+   
+  </head>
+  <body class="font-['Public Sans'] text-white">
+    <!-- Header -->
+    <header class="flex items-center justify-between px-[40px] py-[20px]">
+      <div class="flex gap-5">
+        <img src="/svg/left-home.svg" alt="back" />
+        <img class="rotate-180" src="/svg/left-home.svg" alt="forward" />
+      </div>
+      <div class="flex items-center gap-6">
+        <button
+          class="rounded-full bg-[#F2F2F2] px-5 py-2 font-bold text-[#191919] text-sm hover:scale-105 transition"
+        >
+          Explore Premium
+        </button>
+        <a href="#">
+          <img
+            class="w-[40px] h-[40px] rounded-full hover:scale-110 transition"
+            src="/svg/avatar.svg"
+            alt="Avatar"
+          />
+        </a>
+      </div>
+    </header>
+
+    <!-- Playlist Header -->
+    <section class="flex items-end gap-8 px-[40px] mt-8">
+      <img
+        class="object-cover w-[300px] h-[300px] rounded-xl"
+        src="/img/big liked songs.png"
+        alt="playlist cover"
+      />
+      <div class="flex flex-col">
+        <p class="text-white text-[18px]">PUBLIC PLAYLIST</p>
+        <h2 class="text-white font-bold text-[100px] leading-[1]">
+          Liked Songs
+        </h2>
+        <span class="text-white text-[18px]">Enoch Emmanuel • 55 songs</span>
+      </div>
+    </section>
+
+    <!-- Songs Table -->
+    <div class="mt-10 mb-32 px-[40px]">
+      <table class="w-full text-left">
+        <thead class="border-b border-neutral-800 text-neutral-400 text-sm">
+          <tr>
+            <th class="py-2 w-[40px]">#</th>
+            <th class="py-2">TITLE</th>
+            <th class="py-2">ALBUM</th>
+            <th class="py-2">DATE ADDED</th>
+            <th class="py-2 w-[40px]"></th>
+          </tr>
+        </thead>
+        <tbody class="text-sm">
+          <!-- track row -->
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">1</td>
+            <td class="flex items-center gap-3 py-3">
+              <img
+                src="/img/song-cover.png"
+                alt="cover"
+                class="w-10 h-10 rounded"
+              />
+              <div>
+                <p class="text-white font-medium">The Night We Met</p>
+                <span class="text-neutral-400">Lord Huron</span>
+              </div>
+            </td>
+            <td class="py-3">Play It Safe</td>
+            <td class="py-3">2 days ago</td>
+            <td class="py-3"></td>
+          </tr>
+
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">2</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Akyooza</p>
+                <span class="text-neutral-400">DYRT Music</span>
+              </div>
+            </td>
+            <td class="py-3">In the Shape of a Dream</td>
+            <td class="py-3">2 days ago</td>
+            <td class="py-3"></td>
+          </tr>
+
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">3</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Falling</p>
+                <span class="text-neutral-400">Trevor Daniel</span>
+              </div>
+            </td>
+            <td class="py-3">Vacation</td>
+            <td class="py-3">3 days ago</td>
+            <td class="py-3"></td>
+          </tr>
+
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">4</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Atlantis</p>
+                <span class="text-neutral-400">Seafret</span>
+              </div>
+            </td>
+            <td class="py-3">Girl I Know</td>
+            <td class="py-3">1 week ago</td>
+            <td class="py-3"></td>
+          </tr>
+
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">5</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Another Love</p>
+                <span class="text-neutral-400">Tom Odell</span>
+              </div>
+            </td>
+            <td class="py-3">1993</td>
+            <td class="py-3">2 weeks ago</td>
+            <td class="py-3"></td>
+          </tr>
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">5</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Another Love</p>
+                <span class="text-neutral-400">Tom Odell</span>
+              </div>
+            </td>
+            <td class="py-3">1993</td>
+            <td class="py-3">2 weeks ago</td>
+            <td class="py-3"></td>
+          </tr>
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">5</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Another Love</p>
+                <span class="text-neutral-400">Tom Odell</span>
+              </div>
+            </td>
+            <td class="py-3">1993</td>
+            <td class="py-3">2 weeks ago</td>
+            <td class="py-3"></td>
+          </tr>
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">5</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Another Love</p>
+                <span class="text-neutral-400">Tom Odell</span>
+              </div>
+            </td>
+            <td class="py-3">1993</td>
+            <td class="py-3">2 weeks ago</td>
+            <td class="py-3"></td>
+          </tr>
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">5</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Another Love</p>
+                <span class="text-neutral-400">Tom Odell</span>
+              </div>
+            </td>
+            <td class="py-3">1993</td>
+            <td class="py-3">2 weeks ago</td>
+            <td class="py-3"></td>
+          </tr>
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">5</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Another Love</p>
+                <span class="text-neutral-400">Tom Odell</span>
+              </div>
+            </td>
+            <td class="py-3">1993</td>
+            <td class="py-3">2 weeks ago</td>
+            <td class="py-3"></td>
+          </tr>
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">5</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Another Love</p>
+                <span class="text-neutral-400">Tom Odell</span>
+              </div>
+            </td>
+            <td class="py-3">1993</td>
+            <td class="py-3">2 weeks ago</td>
+            <td class="py-3"></td>
+          </tr>
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">5</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Another Love</p>
+                <span class="text-neutral-400">Tom Odell</span>
+              </div>
+            </td>
+            <td class="py-3">1993</td>
+            <td class="py-3">2 weeks ago</td>
+            <td class="py-3"></td>
+          </tr>
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">5</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Another Love</p>
+                <span class="text-neutral-400">Tom Odell</span>
+              </div>
+            </td>
+            <td class="py-3">1993</td>
+            <td class="py-3">2 weeks ago</td>
+            <td class="py-3"></td>
+          </tr>
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">5</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Another Love</p>
+                <span class="text-neutral-400">Tom Odell</span>
+              </div>
+            </td>
+            <td class="py-3">1993</td>
+            <td class="py-3">2 weeks ago</td>
+            <td class="py-3"></td>
+          </tr>
+          <tr class="hover:bg-[#2a2a2a] transition">
+            <td class="py-3">5</td>
+            <td class="flex items-center gap-3 py-3">
+              <img src="/img/song-cover.png" class="w-10 h-10 rounded" />
+              <div>
+                <p class="text-white font-medium">Another Love</p>
+                <span class="text-neutral-400">Tom Odell</span>
+              </div>
+            </td>
+            <td class="py-3">1993</td>
+            <td class="py-3">2 weeks ago</td>
+            <td class="py-3"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <script type="module" src="./songs.js"></script>
+  </body>
+</html>

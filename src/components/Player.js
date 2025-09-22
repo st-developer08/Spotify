@@ -5,37 +5,33 @@ export function createPlayer(initialTracks = []) {
   const player = document.createElement("div");
   player.className =
     "player z-1000 fixed bottom-0 left-1/2 -translate-x-1/2 w-[100%]  h-[110px] " +
-    "bg-black/100 backdrop-blur-3xl   " +
-    "rounded-1xl shadow-[0_8px_25px_rgba(0,0,0,0.7)] flex items-center justify-between px-8 " +
-    "transition-all duration-500 hover:shadow-[0_8px_35px_rgba(0,0,0,0.9)]";
+    "bg-black/100 backdrop-blur-3xl rounded-1xl shadow-[0_8px_25px_rgba(0,0,0,0.7)] flex items-center justify-between px-8 transition-all duration-500 hover:shadow-[0_8px_35px_rgba(0,0,0,0.9)]";
 
   player.innerHTML = `
     <audio id="audio" preload="metadata"></audio>
     
-<div class="flex items-center gap-4 w-[300px]">
-  <div class="relative">
-    <img id="player-cover" src="/img/default.jpg"
-         class="w-20 h-20 rounded-2xl shadow-lg object-cover transition-transform duration-500 hover:scale-105"
-         alt="cover" />
-    <div class="absolute inset-0 rounded-2xl bg-black/30 opacity-0 hover:opacity-100 transition-opacity"></div>
-  </div>
+    <div class="flex items-center gap-4 w-[300px]">
+      <div class="relative">
+        <img id="player-cover" src="/img/default.jpg"
+             class="w-20 h-20 rounded-2xl shadow-lg object-cover transition-transform duration-500 hover:scale-105"
+             alt="cover" />
+        <div class="absolute inset-0 rounded-2xl bg-black/30 opacity-0 hover:opacity-100 transition-opacity"></div>
+      </div>
 
-  <div class="flex flex-col min-w-0">
-    <span id="player-title"
-          class="text-white font-semibold text-lg truncate max-w-[220px] tracking-wide">
-      Song Name
-    </span>
-    <span id="player-artist"
-          class="text-gray-400 text-sm truncate max-w-[220px]">
-      Artist Name
-    </span>
-  </div>
-</div>
-
+      <div class="flex flex-col min-w-0">
+        <span id="player-title"
+              class="text-white font-semibold text-lg truncate max-w-[220px] tracking-wide">
+          Song Name
+        </span>
+        <span id="player-artist"
+              class="text-gray-400 text-sm truncate max-w-[220px]">
+          Artist Name
+        </span>
+      </div>
+    </div>
 
     <div class="flex flex-col items-center gap-3 flex-1">
       <div class="flex items-center gap-7 text-white">
-        
         <button id="random-btn" class="rounded-full w-10 h-10 flex items-center justify-center transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5">
             <path d="M13.151.922a.75.75 0 1 0-1.06 1.06L13.109 3H11.16a3.75 3.75 0 0 0-2.873 1.34l-6.173 7.356A2.25 2.25 0 0 1 .39 12.5H0V14h.391a3.75 3.75 0 0 0 2.873-1.34l6.173-7.356a2.25 2.25 0 0 1 1.724-.804h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 3.75zM.391 3.5H0V2h.391c1.109 0 2.16.49 2.873 1.34L4.89 5.277l-.979 1.167-1.796-2.14A2.25 2.25 0 0 0 .39 3.5z"/>
@@ -115,9 +111,7 @@ export function createPlayer(initialTracks = []) {
   function formatTime(sec) {
     if (!sec || isNaN(sec)) return "0:00";
     const m = Math.floor(sec / 60);
-    const s = Math.floor(sec % 60)
-      .toString()
-      .padStart(2, "0");
+    const s = Math.floor(sec % 60).toString().padStart(2, "0");
     return `${m}:${s}`;
   }
 
@@ -131,9 +125,7 @@ export function createPlayer(initialTracks = []) {
 
   function updateRepeatIcon() {
     repeatBtn.classList.remove("text-[#1DB954]");
-    repeatIcon.innerHTML = `
-      <path d="M17 1l4 4-4 4V6H7a3 3 0 0 0-3 3v2H2V9a5 5 0 0 1 5-5h10V1zM7 23l-4-4 4-4v3h10a3 3 0 0 0 3-3v-2h2v2a5 5 0 0 1-5 5H7v3z"/>
-    `;
+    repeatIcon.innerHTML = `<path d="M17 1l4 4-4 4V6H7a3 3 0 0 0-3 3v2H2V9a5 5 0 0 1 5-5h10V1zM7 23l-4-4 4-4v3h10a3 3 0 0 0 3-3v-2h2v2a5 5 0 0 1-5 5H7v3z"/>`;
 
     if (repeatMode === 1) {
       repeatBtn.classList.add("text-[#1DB954]"); 
@@ -168,6 +160,9 @@ export function createPlayer(initialTracks = []) {
       totalTimeEl.textContent = "0:00";
       isPlaying = false;
       updatePlayIcon();
+      if (typeof window.__clearTopEqualizer === "function") {
+        window.__clearTopEqualizer();
+      }
       return;
     }
 
@@ -177,16 +172,20 @@ export function createPlayer(initialTracks = []) {
     title.textContent = track.title || "Unknown";
     artist.textContent = track.artist || "";
     audio.src = track.file;
+
+    // --- синхронизация equalizer
+    if (typeof window.__setTopEqualizer === "function") {
+      window.__setTopEqualizer(index);
+    }
+
     audio.load();
     progressBar.value = 0;
     currentTimeEl.textContent = "0:00";
     totalTimeEl.textContent = "0:00";
-
     audio.loop = repeatMode === 2;
 
     if (autoplay) {
-      audio
-        .play()
+      audio.play()
         .then(() => {
           isPlaying = true;
           updatePlayIcon();
@@ -206,8 +205,7 @@ export function createPlayer(initialTracks = []) {
       loadTrack(currentIndex, true);
       return;
     }
-    audio
-      .play()
+    audio.play()
       .then(() => {
         isPlaying = true;
         updatePlayIcon();
@@ -215,6 +213,7 @@ export function createPlayer(initialTracks = []) {
       .catch((err) => console.warn("play() blocked:", err));
   }
 
+  // --- глобальные функции
   window.setPlaylist = (tracks = [], autoplay = false) => {
     playlist = Array.isArray(tracks) ? tracks.slice() : [];
     currentIndex = 0;
@@ -228,8 +227,7 @@ export function createPlayer(initialTracks = []) {
     }
     if (payload && typeof payload === "object") {
       const idx = playlist.findIndex(
-        (t) =>
-          (t.id && payload.id && t.id === payload.id) || t.file === payload.file
+        (t) => (t.id && payload.id && t.id === payload.id) || t.file === payload.file
       );
       if (idx >= 0) {
         loadTrack(idx, true);
@@ -237,6 +235,7 @@ export function createPlayer(initialTracks = []) {
     }
   };
 
+  // --- обработчики
   playBtn.addEventListener("click", () => {
     if (!audio.src) {
       if (playlist.length) loadTrack(currentIndex, true);
@@ -248,6 +247,9 @@ export function createPlayer(initialTracks = []) {
       audio.pause();
       isPlaying = false;
       updatePlayIcon();
+      if (typeof window.__clearTopEqualizer === "function") {
+        window.__clearTopEqualizer();
+      }
     }
   });
 
@@ -307,6 +309,9 @@ export function createPlayer(initialTracks = []) {
       } else {
         isPlaying = false;
         updatePlayIcon();
+        if (typeof window.__clearTopEqualizer === "function") {
+          window.__clearTopEqualizer();
+        }
         return;
       }
       loadTrack(currentIndex, true);
@@ -332,7 +337,6 @@ export function createPlayer(initialTracks = []) {
   }
 
   updateRepeatIcon();
-
   updateVolumeIcon(volumeBar.value);
 
   return {
