@@ -1,4 +1,3 @@
-// src/pages/songs.js
 import db from "../../db.json";
 
 export function openSongsPage(trackId, options = {}) {
@@ -23,99 +22,126 @@ export function openSongsPage(trackId, options = {}) {
   const selected =
     tracks[idx] || tracks[0] || { cover: "/img/default.jpg", title: "Unknown", artist: "" };
 
-  // --- строки треков
   const rowsHtml = tracks
     .map((t, i) => {
       const cover = t.cover || "/img/song-cover.png";
       return `
-      <tr class="song-row ${
-        i === idx ? "bg-[#1DB954]/20" : "hover:bg-white/5"
-      } transition-colors duration-200 cursor-pointer group" 
-          data-index="${i}" data-id="${t.id}">
-        <td class="py-3 px-4 text-neutral-400 w-[50px] group-hover:text-white">${i + 1}</td>
-        <td class="py-3 flex items-center gap-3 min-w-[200px]">
-          <img src="${escapeHtml(cover)}" alt="${escapeHtml(
-        t.title
-      )}" class="w-11 h-11 rounded-md object-cover shadow-md"/>
-          <div>
-            <p class="text-white font-medium truncate max-w-[220px] group-hover:text-green-400">${escapeHtml(
-              t.title
-            )}</p>
-            <span class="text-neutral-400 text-sm group-hover:text-white">${escapeHtml(
-              t.artist
-            )}</span>
+      <tr
+        class="song-row ${i === idx ? "bg-gradient-to-r from-[#1DB954]/20 to-transparent" : "hover:bg-white/5"}
+               transition-all duration-300 cursor-pointer group rounded-md"
+        data-index="${i}" data-id="${t.id}"
+      >
+        <td class="py-3 px-4 text-neutral-400 w-[60px] group-hover:text-white font-medium text-sm text-center">${i + 1}</td>
+
+        <td class="py-3 px-4 flex items-center gap-4 min-w-[280px]">
+          <div class="relative w-12 h-12 flex-shrink-0">
+            <img src="${escapeHtml(cover)}" alt="${escapeHtml(t.title)}"
+                 class="w-12 h-12 rounded-lg object-cover shadow-md transition-transform duration-300 group-hover:scale-105" />
+            <div class="absolute inset-0 rounded-lg bg-black/20 opacity-0 group-hover:opacity-100 transition"></div>
+          </div>
+          <div class="min-w-0">
+            <p class="text-white font-semibold truncate max-w-[420px] group-hover:text-[#1DB954] transition-colors">${escapeHtml(t.title)}</p>
+            <p class="text-neutral-400 text-xs truncate group-hover:text-white">${escapeHtml(t.artist)}</p>
           </div>
         </td>
-        <td class="py-3 text-neutral-400 hidden md:table-cell">${escapeHtml(t.album || "")}</td>
-        <td class="py-3 text-neutral-400 hidden md:table-cell">${escapeHtml(t.added || "")}</td>
-        <td class="py-3 w-[40px] text-neutral-400 opacity-0 group-hover:opacity-100 transition">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-          </svg>
+
+        <td class="py-3 px-4 text-neutral-400 hidden md:table-cell truncate max-w-[220px]">${escapeHtml(t.album || "")}</td>
+        <td class="py-3 px-4 text-neutral-400 hidden md:table-cell">${escapeHtml(t.added || "")}</td>
+
+        <td class="py-3 px-3 w-[72px] text-right">
+          <button class="add-btn opacity-0 group-hover:opacity-100 transition inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-white/8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-neutral-300 hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+          </button>
         </td>
       </tr>
-    `;
+      `;
     })
     .join("");
 
-  // --- вставка
   container.innerHTML = `
-  <!-- Background Blur -->
-  <div class="absolute inset-0 -z-10 overflow-hidden">
-    <img src="${escapeHtml(
-      selected.cover
-    )}" class="w-full h-full object-cover scale-110 blur-3xl opacity-40" alt="bg"/>
-    <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/80 to-black"></div>
+<div class="songs-page relative h-[90%]  overflow-y-auto rounded-xl bg-black/80 shadow-xl">
+  <!-- Локальный фон только внутри контейнера -->
+  <div class="absolute inset-0 -z-10 overflow-hidden rounded-xl">
+    <img src="${escapeHtml(selected.cover)}"
+         class="w-full h-full object-cover scale-110 blur-3xl opacity-60"
+         alt="bg" />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/90 to-black"></div>
   </div>
 
   <!-- Header -->
   <section class="flex items-end gap-8 px-[40px] pt-16 relative z-10">
-    <img class="object-cover w-[260px] h-[260px] rounded-lg shadow-2xl" 
-         src="${escapeHtml(selected.cover)}" alt="playlist cover" />
-    <div class="flex flex-col gap-5">
-      <p class="text-neutral-300 text-sm font-semibold uppercase">Public Playlist</p>
-      <h2 class="text-white font-black text-[72px] leading-[1.1] tracking-tight drop-shadow-2xl">
+    <div class="relative">
+      <img class="object-cover w-[260px] h-[260px] rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.03]"
+           src="${escapeHtml(selected.cover)}" alt="playlist cover" />
+      <div class="absolute bottom-[5px] left-4 px-3 py-1 rounded-full text-xs bg-black/40 border border-white/5 text-neutral-300">
+        ${tracks.length} songs
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <p class="text-neutral-300 text-sm font-semibold uppercase tracking-wide">Public Playlist</p>
+      <h1 class="text-white font-extrabold text-[48px] md:text-[64px] leading-tight tracking-tight drop-shadow-[0_8px_30px_rgba(0,0,0,0.7)]">
         ${escapeHtml(selected.title)}
-      </h2>
-      <span class="text-neutral-300 text-base">${escapeHtml(
-        selected.artist
-      )} • ${tracks.length} songs</span>
+      </h1>
+      <div class="flex items-center gap-4">
+        <span class="text-neutral-300">${escapeHtml(selected.artist)}</span>
+        <div class="h-1 w-1 rounded-full bg-neutral-600"></div>
+        <span class="text-neutral-400">${Math.max(0, tracks.length)} tracks</span>
+      </div>
+
+      <div class="mt-4 flex items-center gap-3">
+        <button id="play-all" class="flex items-center gap-3 px-5 py-3 bg-[#ffffff] hover:bg-[#17a84a] text-black font-semibold rounded-xl  transition-transform transform hover:-translate-y-0.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 3v18l15-9z"/>
+          </svg>
+          Play
+        </button>
+
+        <button id="like-playlist" class="p-3 rounded-md bg-white/5 hover:bg-white/8 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-neutral-200" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+          </svg>
+        </button>
+
+        <div class="text-neutral-400 text-sm ml-3">Created by <span class="text-white font-semibold">You</span></div>
+      </div>
     </div>
   </section>
 
-  <div class="mt-12 px-[40px] relative z-10">
-    <div class="bg-black/60 rounded-xl shadow-2xl  overflow-hidden">
-      
-      <table class="w-full text-left ">
-        <thead class="sticky top-0 z-20 bg-black/80 backdrop-blur border-b border-neutral-800 text-neutral-400 text-xs uppercase tracking-wider">
-          <tr>
-            <th class="py-3 px-4 font-medium">#</th>
-            <th class="py-3 font-medium">Title</th>
-            <th class="py-3 font-medium hidden md:table-cell">Album</th>
-            <th class="py-3 font-medium hidden md:table-cell">Date Added</th>
-            <th class="py-3 w-[40px]"></th>
-          </tr>
-        </thead>
-      </table>
+  <!-- Table -->
+  <div class="mt-7 px-[20px] pb-20 relative z-10">
+    <div class="rounded-2xl shadow-2xl overflow-hidden">
+      <div class="grid grid-cols-[60px_minmax(0,1fr)_320px_150px_72px] items-center py-3 px-4 text-xs uppercase text-neutral-400 tracking-wider border-b border-neutral-800">
+        <div class="text-center">#</div>
+        <div>Title</div>
+        <div class="hidden md:block">Album</div>
+        <div class="hidden md:block">Date added</div>
+        <div></div>
+      </div>
 
-      <div class="max-h-[calc(100vh-400px)] overflow-y-auto pb-[140px] custom-scroll">
-        <table class="w-full text-left ">
-          <tbody class="text-sm text-white divide-y divide-neutral-800" id="songs-table-body">
+      <div class="pb-9">
+        <table class="w-full text-left">
+          <tbody class="text-sm text-white divide-y divide-neutral-800">
             ${rowsHtml}
           </tbody>
         </table>
       </div>
     </div>
   </div>
+</div>
 `;
 
-  window.__currentSongsView = {
-    playlistIds: tracks.map((t) => String(t.id)),
-    playlist: tracks,
-    selectedIndex: idx,
-  };
 
-  // клики
+  const playAllBtn = container.querySelector("#play-all");
+  if (playAllBtn) {
+    playAllBtn.addEventListener("click", () => {
+      if (typeof window.setPlaylist === "function") window.setPlaylist(tracks, true);
+      else console.warn("setPlaylist not found");
+    });
+  }
+
   const rows = container.querySelectorAll(".song-row");
   rows.forEach((row) => {
     row.addEventListener("click", () => {
@@ -128,19 +154,18 @@ export function openSongsPage(trackId, options = {}) {
 
   function highlightRow(index) {
     const rows = container.querySelectorAll(".song-row");
-    rows.forEach((r) => r.classList.remove("bg-[#1DB954]/20"));
+    rows.forEach((r) => r.classList.remove("bg-gradient-to-r", "from-[#1DB954]/20", "to-transparent"));
     const target = container.querySelector(`.song-row[data-index="${index}"]`);
-    if (target) target.classList.add("bg-[#1DB954]/20");
+    if (target) target.classList.add("bg-gradient-to-r", "from-[#1DB954]/20", "to-transparent");
 
     const t = tracks[index];
     if (t) {
       const headerImg = container.querySelector("section img.object-cover");
-      const headerTitle = container.querySelector("section h2");
-      const headerArtist = container.querySelector("section span");
+      const headerTitle = container.querySelector("section h1, section h2");
+      const headerArtist = container.querySelector("section .text-neutral-300");
       if (headerImg) headerImg.src = t.cover || "/img/default.jpg";
       if (headerTitle) headerTitle.textContent = t.title || "";
-      if (headerArtist)
-        headerArtist.textContent = `${t.artist || ""} • ${tracks.length} songs`;
+      if (headerArtist) headerArtist.textContent = `${t.artist || ""} • ${tracks.length} songs`;
       window.__currentSongsView.selectedIndex = index;
     }
   }
@@ -169,13 +194,13 @@ document.addEventListener("player:trackChange", (e) => {
       const target = container.querySelector(`.song-row[data-index="${idx}"]`);
       if (target) {
         container.querySelectorAll(".song-row").forEach((r) =>
-          r.classList.remove("bg-[#1DB954]/20")
+          r.classList.remove("bg-gradient-to-r", "from-[#1DB954]/20", "to-transparent")
         );
-        target.classList.add("bg-[#1DB954]/20");
+        target.classList.add("bg-gradient-to-r", "from-[#1DB954]/20", "to-transparent");
 
         const headerImg = container.querySelector("section img.object-cover");
-        const headerTitle = container.querySelector("section h2");
-        const headerArtist = container.querySelector("section span");
+        const headerTitle = container.querySelector("section h1, section h2");
+        const headerArtist = container.querySelector("section .text-neutral-300");
         if (headerImg && track) headerImg.src = track.cover || "/img/default.jpg";
         if (headerTitle && track) headerTitle.textContent = track.title || "";
         if (headerArtist && track)
@@ -194,6 +219,7 @@ document.addEventListener("player:trackChange", (e) => {
   }
 });
 
+// --- helpers ---
 function arraysEqual(a, b) {
   if (!a || !b) return false;
   if (a.length !== b.length) return false;

@@ -48,7 +48,7 @@ export function createPlayer(initialTracks = []) {
           </svg>
         </button>
 
-        <button id="play-btn" class="rounded-full w-14 h-14 flex items-center justify-center bg-gradient-to-r from-[#1DB954] to-[#17a94d] text-white shadow-lg hover:scale-110 hover:shadow-[0_0_20px_#1DB954] transition-all">
+        <button id="play-btn" class="rounded-full w-14 h-14 flex items-center justify-center bg-gradient-to-r from-[#ffffff] to-[#ffffff] text-black shadow-lg hover:scale-105 hover:shadow-[0_0_20px] transition-all">
           <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-10 h-10" viewBox="0 0 24 24">
             <path d="M8 5v14l11-7z"/>
           </svg>
@@ -72,7 +72,7 @@ export function createPlayer(initialTracks = []) {
       <div class="flex items-center gap-3 w-[520px]">
         <span id="current-time" class="text-gray-400 text-xs">0:00</span>
         <input id="progress-bar" type="range" min="0" max="100" value="0" 
-               class="w-full h-1 rounded-full appearance-none cursor-pointer accent-[#1DB954] bg-gray-700/50 shadow-inner"/>
+               class="w-full h-1 rounded-full   cursor-pointer accent-[#ffffff]  shadow-inner "/>
         <span id="total-time" class="text-gray-400 text-xs">0:00</span>
       </div>
     </div>
@@ -84,7 +84,7 @@ export function createPlayer(initialTracks = []) {
         <path d="M4 9v6h4l5 5V4L8 9H4z"/>
       </svg>
       <input id="volume-bar" type="range" min="0" max="100" value="60" 
-             class="w-full h-1 rounded-full appearance-none cursor-pointer accent-[#1DB954] bg-gray-700/50 shadow-inner"/>
+             class="w-full h-1 rounded-full  cursor-pointer accent-[#ffffff] bg-gray-700/50 shadow-inner"/>
     </div>
   `;
 
@@ -370,4 +370,6 @@ export function createPlayer(initialTracks = []) {
     setPlaylist: window.setPlaylist,
     playTrack: window.playTrack,
   };
+
+  
 }

@@ -76,6 +76,30 @@
       "artist": "Odetari",
       "cover": "/img/odetari.webp",
       "file": "/music/Odetari - Heavy Love (Official Audio).m4a"
+    },{
+      "id": 12,
+      "title": "One Dance",
+      "artist": "Drake",
+      "cover": "/img/one dance  Drake big.jpg",
+      "file": "/music/Drake - One Dance _Lyrics_ ft.Wizkid _ Kyla.mp3"
+    },{
+      "id": 13,
+      "title": "I Wanna Be Yours",
+      "artist": "Arctic Monkeys",
+      "cover": "/img/i wanna be your.jpg",
+      "file": "/music/Arctic_Monkeys_-_I_Wanna_Be_Yours-[fukGbiPuBjU].m4a"
+    },{
+      "id": 14,
+      "title": "Summertime Saddness",
+      "artist": "Lana Del Rey",
+      "cover": "/public/img/summertime.jpg",
+      "file": "/public/music/Lana_Del_Rey_-_Summertime_Sadness_Lyrics-[zQO7J483Dng].m4a"
+    },{
+      "id": 15,
+      "title": "Superhero",
+      "artist": "Metro Boomin",
+      "cover": "/img/superhero.jpg",
+      "file": "/music/Metro_Boomin_Future_Superhero_Heroes_Villains_Official_Music_V.m4a"
     }
   ],
 
@@ -92,6 +116,56 @@
       "artist": "gym",
       "cover": "/img/gymcore -big.jpg",
       "file": "/music/gymcore, Shyron   HÄRKÄ - IMMORTAL FUNK [Brazilian Phonk].m4a"
+    },{
+      "id": 3,
+      "title": "One Dance",
+      "artist": "Drake",
+      "cover": "/img/one dance  Drake big.jpg",
+      "file": "/music/Drake - One Dance _Lyrics_ ft.Wizkid _ Kyla.mp3"
+    },{
+      "id": 4,
+      "title": "I Wanna Be Yours",
+      "artist": "Arctic Monkeys",
+      "cover": "/img/i wanna be your.jpg",
+      "file": "/music/Arctic_Monkeys_-_I_Wanna_Be_Yours-[fukGbiPuBjU].m4a"
+    },{
+      "id": 5,
+      "title": "Summertime Saddness",
+      "artist": "Lana Del Rey",
+      "cover": "/img/summertime.jpg",
+      "file": "/music/Lana_Del_Rey_-_Summertime_Sadness_Lyrics-[zQO7J483Dng].m4a"
+    },{
+      "id": 6,
+      "title": "Superhero",
+      "artist": "Metro Boomin",
+      "cover": "/img/superhero.jpg",
+      "file": "/music/Metro_Boomin_Future_Superhero_Heroes_Villains_Official_Music_V.m4a"
+    },{
+      "id": 7,
+      "title": "Superman",
+      "artist": "Eminem",
+      "cover": "/img/eminem-superman.jpg",
+      "file": "/music/Metro_Boomin_Future_Superhero_Heroes_Villains_Official_Music_V.m4a"
+    },
+    {
+      "id": 8,
+      "title": "ShO`nen",
+      "artist": "Rebzyyx",
+      "cover": "/img/shonen.jpg",
+      "file": "/music/廻廻奇譚 - Eve MV(Live Film ver).m4a"
+    },{
+      "id": 9,
+      "title": "Mockingbird",
+      "artist": "Eminem",
+      "cover": "/img/mockinbird.jpg",
+      "file": "/public/music/Eminem_-_Mockingbird_Lyrics-[37V3b39_EXw].m4a"
+    },
+    {
+      "id": 10,
+      "title": "Heavy Love",
+      "artist": "Odetari",
+      "cover": "/img/odetari.webp",
+      "file": "/music/Odetari - Heavy Love (Official Audio).m4a"
     }
   ]
 }

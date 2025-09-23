@@ -1,11 +1,11 @@
 export function createHeader(){
     const header = document.querySelector('#header')
     header.className =
-    "flex items-center justify-between bg-black px-6 py-1" ;
+    "flex items-center justify-between  px-6 py-1" ;
 
     header.innerHTML = `
               <div class="spotify-logo flex items-center gap-2">
-        <a href="./src/pages/songs.html"><img class="w-[40px]" src="/svg/white.svg" alt="Spotify Logo" /></a>
+        <a href="#"><img class="w-[40px]" src="/svg/white.svg" alt="Spotify Logo" /></a>
       </div>
 
       <nav class="flex items-center gap-2 flex-1 justify-center">
