@@ -2,11 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="/icons/title-icon.png"
-    />
+    <link rel="icon" type="image/svg+xml" href="/icons/title-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Simplebar -->
@@ -29,26 +25,24 @@
 
     <title>Spotify</title>
   </head>
-  <body class="bg-black font-['Public_Sans'] h-screen overflow-hidden p-1">
-    
-    
-   
-    <header id="header"></header>
-    
+  <body class="bg-black font-['Public_Sans'] min-h-screen h-screen overflow-hidden">
+
+    <!-- Header -->
+    <header id="header" class="z-40"></header>
+
+    <!-- Main layout: мобильная 1 колонка, md -> 2 колонки -->
     <div
-      class="spotify-home grid grid-cols-[0.4fr_1.2fr] mt-[-8px] gap-2 h-full p-3 overflow-hidden"
+      class="spotify-home grid grid-cols-1 md:grid-cols-[0.4fr_1.2fr] gap-2 h-[calc(100vh-72px)] md:h-[calc(100vh-110px)] p-3 overflow-hidden max-w-[1600px] mx-auto"
     >
       <!-- Sidebar -->
-      <aside id="sidebar" ></aside>
+      <aside id="sidebar" class="hidden md:block"></aside>
 
       <!-- Main content -->
-      <main id="playlists" ></main>
+      <main id="playlists" class="min-h-0 overflow-hidden"></main>
     </div>
 
-    <!-- Player -->
-    <div id="player">
-      
-    </div>
+    <!-- Player (fixed bottom, full width) -->
+    <div id="player"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
     <script type="module" src="/src/main.js"></script>

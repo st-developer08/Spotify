@@ -28,19 +28,19 @@ export function openSongsPage(trackId, options = {}) {
       return `
       <tr
         class="song-row ${i === idx ? "bg-gradient-to-r from-[#1DB954]/20 to-transparent" : "hover:bg-white/5"}
-               transition-all duration-300 cursor-pointer group rounded-md"
+               transition-all duration-200 cursor-pointer group rounded-md"
         data-index="${i}" data-id="${t.id}"
       >
-        <td class="py-3 px-4 text-neutral-400 w-[60px] group-hover:text-white font-medium text-sm text-center">${i + 1}</td>
+        <td class="py-3 px-4 text-neutral-400 w-[48px] md:w-[60px] group-hover:text-white font-medium text-sm text-center">${i + 1}</td>
 
-        <td class="py-3 px-4 flex items-center gap-4 min-w-[280px]">
-          <div class="relative w-12 h-12 flex-shrink-0">
+        <td class="py-3 px-4 flex items-center gap-3 md:gap-4 min-w-[180px] md:min-w-[280px]">
+          <div class="relative w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
             <img src="${escapeHtml(cover)}" alt="${escapeHtml(t.title)}"
-                 class="w-12 h-12 rounded-lg object-cover shadow-md transition-transform duration-300 group-hover:scale-105" />
+                 class="w-10 h-10 md:w-12 md:h-12 rounded-lg object-cover shadow-md transition-transform duration-200 group-hover:scale-105" />
             <div class="absolute inset-0 rounded-lg bg-black/20 opacity-0 group-hover:opacity-100 transition"></div>
           </div>
           <div class="min-w-0">
-            <p class="text-white font-semibold truncate max-w-[420px] group-hover:text-[#1DB954] transition-colors">${escapeHtml(t.title)}</p>
+            <p class="text-white font-semibold truncate max-w-[360px] group-hover:text-[#1DB954] transition-colors">${escapeHtml(t.title)}</p>
             <p class="text-neutral-400 text-xs truncate group-hover:text-white">${escapeHtml(t.artist)}</p>
           </div>
         </td>
@@ -48,7 +48,7 @@ export function openSongsPage(trackId, options = {}) {
         <td class="py-3 px-4 text-neutral-400 hidden md:table-cell truncate max-w-[220px]">${escapeHtml(t.album || "")}</td>
         <td class="py-3 px-4 text-neutral-400 hidden md:table-cell">${escapeHtml(t.added || "")}</td>
 
-        <td class="py-3 px-3 w-[72px] text-right">
+        <td class="py-3 px-3 w-[56px] text-right">
           <button class="add-btn opacity-0 group-hover:opacity-100 transition inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-white/8">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-neutral-300 hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -61,8 +61,7 @@ export function openSongsPage(trackId, options = {}) {
     .join("");
 
   container.innerHTML = `
-<div class="songs-page relative h-[90%]  overflow-y-auto rounded-xl bg-black/80 shadow-xl">
-  <!-- Локальный фон только внутри контейнера -->
+<div class="songs-page relative h-full overflow-y-auto rounded-xl bg-black/80 shadow-xl">
   <div class="absolute inset-0 -z-10 overflow-hidden rounded-xl">
     <img src="${escapeHtml(selected.cover)}"
          class="w-full h-full object-cover scale-110 blur-3xl opacity-60"
@@ -70,50 +69,46 @@ export function openSongsPage(trackId, options = {}) {
     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/90 to-black"></div>
   </div>
 
-  <!-- Header -->
-  <section class="flex items-end gap-8 px-[40px] pt-16 relative z-10">
-    <div class="relative">
-      <img class="object-cover w-[260px] h-[260px] rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-[1.03]"
+  <section class="flex flex-col md:flex-row items-start md:items-end gap-6 px-4 md:px-[40px] pt-8 md:pt-16 relative z-10">
+    <div class="relative flex-shrink-0">
+      <img class="object-cover w-[180px] h-[180px] md:w-[260px] md:h-[260px] rounded-2xl shadow-2xl transform transition-all duration-300 hover:scale-[1.03]"
            src="${escapeHtml(selected.cover)}" alt="playlist cover" />
-      <div class="absolute bottom-[5px] left-4 px-3 py-1 rounded-full text-xs bg-black/40 border border-white/5 text-neutral-300">
+      <div class="absolute bottom-[6px] left-3 px-3 py-1 rounded-full text-xs bg-black/40 border border-white/5 text-neutral-300">
         ${tracks.length} songs
       </div>
     </div>
 
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-3">
       <p class="text-neutral-300 text-sm font-semibold uppercase tracking-wide">Public Playlist</p>
-      <h1 class="text-white font-extrabold text-[48px] md:text-[64px] leading-tight tracking-tight drop-shadow-[0_8px_30px_rgba(0,0,0,0.7)]">
-        ${escapeHtml(selected.title)}
-      </h1>
-      <div class="flex items-center gap-4">
+      <h1 class="text-white font-extrabold text-2xl md:text-[48px] leading-tight tracking-tight drop-shadow-[0_8px_30px_rgba(0,0,0,0.7)]">${escapeHtml(selected.title)}</h1>
+      <div class="flex items-center gap-3 text-neutral-300">
         <span class="text-neutral-300">${escapeHtml(selected.artist)}</span>
         <div class="h-1 w-1 rounded-full bg-neutral-600"></div>
         <span class="text-neutral-400">${Math.max(0, tracks.length)} tracks</span>
       </div>
 
-      <div class="mt-4 flex items-center gap-3">
-        <button id="play-all" class="flex items-center gap-3 px-5 py-3 bg-[#ffffff] hover:bg-[#17a84a] text-black font-semibold rounded-xl  transition-transform transform hover:-translate-y-0.5">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+      <div class="mt-3 flex items-center gap-3">
+        <button id="play-all" class="flex items-center gap-3 px-4 md:px-5 py-2 md:py-3 bg-white hover:bg-[#17a84a] text-black font-semibold rounded-xl transition-transform transform hover:-translate-y-0.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 md:w-5 h-4 md:h-5" fill="currentColor" viewBox="0 0 24 24">
             <path d="M5 3v18l15-9z"/>
           </svg>
           Play
         </button>
 
-        <button id="like-playlist" class="p-3 rounded-md bg-white/5 hover:bg-white/8 transition">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-neutral-200" fill="currentColor" viewBox="0 0 24 24">
+        <button id="like-playlist" class="p-2 md:p-3 rounded-md bg-white/5 hover:bg-white/8 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 md:w-5 h-4 md:h-5 text-neutral-200" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
           </svg>
         </button>
 
-        <div class="text-neutral-400 text-sm ml-3">Created by <span class="text-white font-semibold">You</span></div>
+        <div class="text-neutral-400 text-sm ml-2 md:ml-4">Created by <span class="text-white font-semibold">You</span></div>
       </div>
     </div>
   </section>
 
-  <!-- Table -->
-  <div class="mt-7 px-[20px] pb-20 relative z-10">
+  <div class="mt-6 md:mt-7 px-4 md:px-[20px] pb-24 relative z-10">
     <div class="rounded-2xl shadow-2xl overflow-hidden">
-      <div class="grid grid-cols-[60px_minmax(0,1fr)_320px_150px_72px] items-center py-3 px-4 text-xs uppercase text-neutral-400 tracking-wider border-b border-neutral-800">
+      <div class="grid grid-cols-[48px_minmax(0,1fr)_1fr_1fr_56px] items-center py-3 px-4 text-xs uppercase text-neutral-400 tracking-wider border-b border-neutral-800">
         <div class="text-center">#</div>
         <div>Title</div>
         <div class="hidden md:block">Album</div>
@@ -132,7 +127,6 @@ export function openSongsPage(trackId, options = {}) {
   </div>
 </div>
 `;
-
 
   const playAllBtn = container.querySelector("#play-all");
   if (playAllBtn) {
@@ -166,7 +160,9 @@ export function openSongsPage(trackId, options = {}) {
       if (headerImg) headerImg.src = t.cover || "/img/default.jpg";
       if (headerTitle) headerTitle.textContent = t.title || "";
       if (headerArtist) headerArtist.textContent = `${t.artist || ""} • ${tracks.length} songs`;
+      window.__currentSongsView = window.__currentSongsView || {};
       window.__currentSongsView.selectedIndex = index;
+      window.__currentSongsView.playlistIds = tracks.map(t => String(t.id));
     }
   }
 
@@ -174,6 +170,12 @@ export function openSongsPage(trackId, options = {}) {
     if (typeof window.setPlaylist === "function") window.setPlaylist(tracks, false);
     if (typeof window.playTrack === "function") window.playTrack(idx);
   }
+
+  // initialize __currentSongsView
+  window.__currentSongsView = {
+    playlistIds: tracks.map(t => String(t.id)),
+    selectedIndex: idx
+  };
 }
 
 document.addEventListener("player:trackChange", (e) => {
@@ -219,7 +221,7 @@ document.addEventListener("player:trackChange", (e) => {
   }
 });
 
-// --- helpers ---
+// helpers
 function arraysEqual(a, b) {
   if (!a || !b) return false;
   if (a.length !== b.length) return false;

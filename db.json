@@ -92,8 +92,8 @@
       "id": 14,
       "title": "Summertime Saddness",
       "artist": "Lana Del Rey",
-      "cover": "/public/img/summertime.jpg",
-      "file": "/public/music/Lana_Del_Rey_-_Summertime_Sadness_Lyrics-[zQO7J483Dng].m4a"
+      "cover": "/img/summertime.jpg",
+      "file": "/music/Lana_Del_Rey_-_Summertime_Sadness_Lyrics-[zQO7J483Dng].m4a"
     },{
       "id": 15,
       "title": "Superhero",

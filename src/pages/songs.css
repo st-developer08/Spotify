@@ -42,3 +42,31 @@ body {
 }
 
 
+
+/* responsive tweaks & helpers */
+.player { will-change: transform, opacity; }
+
+/* simple fadeIn animation used for dropdowns */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn { animation: fadeIn .16s ease-out; }
+
+/* small helper to ensure mobile offcanvas transition is smooth */
+#offcanvas-sidebar { transition: transform .28s cubic-bezier(.2,.9,.3,1), opacity .28s ease; }
+
+/* make sure table rows tap feedback */
+.song-row:active { transform: translateY(1px); }
+
+/* small fix: ensure rounded top for player on mobile */
+.player { border-top-left-radius: .75rem; border-top-right-radius: .75rem; }
+
+/* keep backdrop blur consistent */
+.backdrop-blur-3xl { backdrop-filter: blur(10px); }
+
+/* ensure mobile search overlay z-index and smooth */
+#mobile-search-overlay { transition: opacity .18s ease; }
+
+/* allow text truncation safe */
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
