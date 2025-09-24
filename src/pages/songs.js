@@ -206,7 +206,7 @@ export function openSongsPage(trackId, options = {}) {
       if (headerArtist) headerArtist.textContent = `${t.artist || ""} • ${tracks.length} songs`;
 
       const textColor = contrastTextColor(color);
-      if (headerTitle) headerTitle.style.color = textColor === "#fff" ? "#fff" : "#000";
+      if (headerTitle) headerTitle.style.color = textColor === "#fff";
     }
 
     window.__currentSongsView = window.__currentSongsView || {};
