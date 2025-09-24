@@ -383,3 +383,51 @@ html, body {
   appearance: none;
   display: none;
 }
+
+
+#offcanvas-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: -18rem;            
+  width: 18rem;            
+  max-width: 86vw;         
+  background: #0f0f0f;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: left 300ms cubic-bezier(.2,.8,.2,1), opacity 300ms ease;
+  -webkit-overflow-scrolling: touch; 
+}
+
+#offcanvas-sidebar.open {
+  left: 0;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#mobile-sidebar-placeholder {
+  height: calc(100vh - 56px); 
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#offcanvas-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 9990;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+#offcanvas-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.no-scroll {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+}

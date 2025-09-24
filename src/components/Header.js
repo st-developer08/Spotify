@@ -3,7 +3,8 @@ import { createPlayer } from "../components/Player";
 
 export function createHeader() {
   const header = document.querySelector("#header");
-  header.className = "flex items-center justify-between px-4 md:px-6 py-2 bg-transparent sticky top-0 z-50";
+  header.className =
+    "flex items-center justify-between px-4 md:px-6 py-2 bg-transparent sticky top-0 z-50";
   header.innerHTML = `
     <div class="flex items-center gap-3">
       <button id="burger-btn" aria-label="Open menu" class="md:hidden p-2 rounded-full hover:bg-white/5 active:scale-95 transition">
@@ -45,13 +46,85 @@ export function createHeader() {
       <a href="#"><img class="w-9 h-9 rounded-full hover:scale-110 transition" src="/svg/avatar.svg" alt="Avatar" /></a>
     </div>
   `;
+  const burgerBtn = header.querySelector("#burger-btn");
+  if (burgerBtn) burgerBtn.setAttribute("type", "button");
+
+  const offcanvas = document.getElementById("offcanvas-sidebar");
+  const offcanvasClose = document.getElementById("offcanvas-close");
+  let backdrop = document.getElementById("offcanvas-backdrop");
+
+  if (!backdrop) {
+    backdrop = document.createElement("div");
+    backdrop.id = "offcanvas-backdrop";
+    document.body.appendChild(backdrop);
+  }
+
+  let _savedScrollY = 0;
+
+  function lockBodyScroll() {
+    _savedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.body.style.top = `-${_savedScrollY}px`;
+    document.body.classList.add("no-scroll");
+  }
+
+  function unlockBodyScroll() {
+    document.body.classList.remove("no-scroll");
+    document.body.style.top = "";
+    window.scrollTo(0, _savedScrollY);
+    _savedScrollY = 0;
+  }
+
+  function openOffcanvas(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (!offcanvas) return;
+    lockBodyScroll();
+    offcanvas.classList.add("open");
+    offcanvas.setAttribute("aria-hidden", "false");
+    offcanvas.setAttribute("tabindex", "-1");
+    offcanvas.focus?.();
+    backdrop.classList.add("open");
+    document.addEventListener("keydown", handleEsc);
+  }
+
+  function closeOffcanvas(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (!offcanvas) return;
+    offcanvas.classList.remove("open");
+    offcanvas.setAttribute("aria-hidden", "true");
+    backdrop.classList.remove("open");
+    unlockBodyScroll();
+    document.removeEventListener("keydown", handleEsc);
+  }
+
+  function handleEsc(e) {
+    if (e.key === "Escape") closeOffcanvas();
+  }
+
+  burgerBtn?.addEventListener("click", openOffcanvas);
+  burgerBtn?.addEventListener("touchstart", openOffcanvas, { passive: true });
+  offcanvasClose?.addEventListener("click", closeOffcanvas);
+  offcanvasClose?.addEventListener("touchstart", closeOffcanvas, {
+    passive: true,
+  });
+
+  backdrop.addEventListener("click", closeOffcanvas);
+  backdrop.addEventListener("touchstart", closeOffcanvas, { passive: true });
+
+  window.addEventListener("orientationchange", () => {
+    if (offcanvas && offcanvas.classList.contains("open")) closeOffcanvas();
+  });
 
   const input = header.querySelector("#search-input");
   const clearBtn = header.querySelector("#clear-btn");
   const dropdown = header.querySelector("#search-dropdown");
   const container = header.querySelector("#search-container");
 
-  const normalize = (s) => (s || "").toString().toLowerCase().normalize?.("NFD").replace(/\p{M}/gu, "") || (s || "").toString().toLowerCase();
+  const normalize = (s) =>
+    (s || "")
+      .toString()
+      .toLowerCase()
+      .normalize?.("NFD")
+      .replace(/\p{M}/gu, "") || (s || "").toString().toLowerCase();
   const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
   const allTracksMap = new Map();
@@ -89,8 +162,15 @@ export function createHeader() {
   const buildItemHTML = (t, i, q) => {
     const qEsc = escapeRegExp(q);
     const re = q ? new RegExp(`(${qEsc})`, "ig") : null;
-    const titleHtml = re ? t.title.replace(re, "<span class=\"bg-emerald-600/30 rounded-sm px-[2px]\">$1</span>") : t.title;
-    const artistHtml = re ? t.artist.replace(re, "<span class=\"text-emerald-400\">$1</span>") : t.artist;
+    const titleHtml = re
+      ? t.title.replace(
+          re,
+          '<span class="bg-emerald-600/30 rounded-sm px-[2px]">$1</span>'
+        )
+      : t.title;
+    const artistHtml = re
+      ? t.artist.replace(re, '<span class="text-emerald-400">$1</span>')
+      : t.artist;
     return `
       <div role="option" aria-selected="false" data-search-index="${i}"
         class="search-item group flex items-center gap-3 px-3 py-2 hover:bg-neutral-800 cursor-pointer transition-all duration-150 rounded-md">
@@ -120,7 +200,11 @@ export function createHeader() {
     const html = `
       <div class="px-3 py-2 text-xs text-neutral-400 font-semibold">Tracks</div>
       ${shown.map((t, i) => buildItemHTML(t, i, query)).join("")}
-      ${results.length > maxShow ? `<div class="px-3 py-2 text-sm text-neutral-400 hover:bg-neutral-800 cursor-pointer rounded-b-md" data-see-all>See ${results.length} results</div>` : ""}
+      ${
+        results.length > maxShow
+          ? `<div class="px-3 py-2 text-sm text-neutral-400 hover:bg-neutral-800 cursor-pointer rounded-b-md" data-see-all>See ${results.length} results</div>`
+          : ""
+      }
     `;
     dropdown.innerHTML = html;
     dropdown.classList.remove("hidden");
@@ -190,7 +274,10 @@ export function createHeader() {
   const onSelect = (idx) => {
     const track = currentResults[idx];
     if (!track) return;
-    if (typeof window.setPlaylist === "function" && typeof window.playTrack === "function") {
+    if (
+      typeof window.setPlaylist === "function" &&
+      typeof window.playTrack === "function"
+    ) {
       try {
         window.setPlaylist(currentResults, true);
         window.playTrack(idx);
