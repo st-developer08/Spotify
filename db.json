@@ -100,7 +100,41 @@
       "artist": "Metro Boomin",
       "cover": "/img/superhero.jpg",
       "file": "/music/Metro_Boomin_Future_Superhero_Heroes_Villains_Official_Music_V.m4a"
-    }
+    },
+  {
+    "id": 16,
+    "title": "Levitating",
+    "artist": "Dua Lipa",
+    "cover": "/img/Levitating.jpg",
+    "file": "/music/Dua Lipa - Levitating (Lyrics).m4a"
+  },
+  {
+    "id": 17,
+    "title": "Agudo Mágico 3",
+    "artist": "MC K.K",
+    "cover": "/img/agudo magico.jpg",
+    "file": "/music/Agudo_Mágico_3_MC_K_K_Dj_TG_Beats_Dj_Aurelio_MC_Lipivox_12.mp3"
+  },
+  {
+    "id": 18,
+    "title": "Sweater Weather",
+    "artist": "The Neighbourhood",
+    "cover": "/img/swether.jpg",
+    "file": "/music/The Neighbourhood - Sweater Weather _Lyrics_.mp3"
+  },
+  {
+    "id": 19,
+    "title": "Starboy",
+    "artist": "The Weeknd",
+    "cover": "/img/starboy.jpg",
+    "file": "/music/The Weeknd - Starboy (Lyrics) ft. Daft Punk.m4a"
+  },{
+    "id": 20,
+    "title": "Blinding Lights",
+    "artist": "The Weeknd",
+    "cover": "/img/Blinding Lights.jpg",
+    "file": "/music/The_Weeknd_-_Blinding_Lights_Official_Video-[4NRXx6U8ABQ].m4a"
+  }
   ],
 
   "mainTracks": [
@@ -158,7 +192,7 @@
       "title": "Mockingbird",
       "artist": "Eminem",
       "cover": "/img/mockinbird.jpg",
-      "file": "/public/music/Eminem_-_Mockingbird_Lyrics-[37V3b39_EXw].m4a"
+      "file": "/music/Eminem_-_Mockingbird_Lyrics-[37V3b39_EXw].m4a"
     },
     {
       "id": 10,
@@ -167,6 +201,44 @@
       "cover": "/img/odetari.webp",
       "file": "/music/Odetari - Heavy Love (Official Audio).m4a"
     }
-  ]
+  ],
+  "topTracks": [
+  {
+    "id": 11,
+    "title": "Blinding Lights",
+    "artist": "The Weeknd",
+    "cover": "/img/Blinding Lights.jpg",
+    "file": "/music/The_Weeknd_-_Blinding_Lights_Official_Video-[4NRXx6U8ABQ].m4a"
+  },
+  {
+    "id": 12,
+    "title": "Levitating",
+    "artist": "Dua Lipa",
+    "cover": "/img/Levitating.jpg",
+    "file": "/music/Dua Lipa - Levitating (Lyrics).m4a"
+  },
+  {
+    "id": 13,
+    "title": "Starboy",
+    "artist": "The Weeknd",
+    "cover": "/img/starboy.jpg",
+    "file": "/music/The Weeknd - Starboy (Lyrics) ft. Daft Punk.m4a"
+  },
+  {
+    "id": 14,
+    "title": "Sweater Weather",
+    "artist": "The Neighbourhood",
+    "cover": "/img/swether.jpg",
+    "file": "/music/The Neighbourhood - Sweater Weather _Lyrics_.mp3"
+  },
+  {
+    "id": 15,
+    "title": "Agudo Mágico 3",
+    "artist": "MC K.K",
+    "cover": "/img/agudo magico.jpg",
+    "file": "/music/Agudo_Mágico_3_MC_K_K_Dj_TG_Beats_Dj_Aurelio_MC_Lipivox_12.mp3"
+  }
+]
+
 }
 

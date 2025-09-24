@@ -1,5 +1,9 @@
 import db from "../../db.json";
 
+
+
+
+
 export function openSongsPage(trackId, options = {}) {
   const container =
     document.querySelector("#main-content") ||
@@ -36,11 +40,11 @@ export function openSongsPage(trackId, options = {}) {
         <td class="py-3 px-4 flex items-center gap-3 md:gap-4 min-w-[180px] md:min-w-[280px]">
           <div class="relative w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
             <img src="${escapeHtml(cover)}" alt="${escapeHtml(t.title)}"
-                 class="w-10 h-10 md:w-12 md:h-12 rounded-lg object-cover shadow-md transition-transform duration-200 group-hover:scale-105" />
+                 class="row-cover w-10 h-10 md:w-12 md:h-12 rounded-lg object-cover shadow-md transition-transform duration-200 group-hover:scale-105" />
             <div class="absolute inset-0 rounded-lg bg-black/20 opacity-0 group-hover:opacity-100 transition"></div>
           </div>
           <div class="min-w-0">
-            <p class="text-white font-semibold truncate max-w-[360px] group-hover:text-[#1DB954] transition-colors">${escapeHtml(t.title)}</p>
+            <p class="text-white font-semibold truncate max-w-[360px] group-hover:text-[#ffffff] transition-colors">${escapeHtml(t.title)}</p>
             <p class="text-neutral-400 text-xs truncate group-hover:text-white">${escapeHtml(t.artist)}</p>
           </div>
         </td>
@@ -64,7 +68,7 @@ export function openSongsPage(trackId, options = {}) {
 <div class="songs-page relative h-full overflow-y-auto rounded-xl bg-black/80 shadow-xl">
   <div class="absolute inset-0 -z-10 overflow-hidden rounded-xl">
     <img src="${escapeHtml(selected.cover)}"
-         class="w-full h-full object-cover scale-110 blur-3xl opacity-60"
+         class="w-full h-full object-cover scale-100 blur-2xl opacity-70 saturate-1500"
          alt="bg" />
     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/90 to-black"></div>
   </div>
@@ -136,21 +140,61 @@ export function openSongsPage(trackId, options = {}) {
     });
   }
 
-  const rows = container.querySelectorAll(".song-row");
+  const rows = Array.from(container.querySelectorAll(".song-row"));
+
+  (function precomputeColors(rowsList) {
+    rowsList.forEach((row) => {
+      if (row.dataset.color) return;
+      const img = row.querySelector(".row-cover");
+      if (!img) return;
+      getDominantColorFromImageElement(img).then((color) => {
+        if (!color) {
+          return getDominantColorFromUrl(img.src);
+        }
+        return color;
+      }).then((color) => {
+        if (color) row.dataset.color = JSON.stringify(color);
+      }).catch(() => {});
+    });
+  })(rows);
+
   rows.forEach((row) => {
-    row.addEventListener("click", () => {
+    row.addEventListener("click", async () => {
       const index = Number(row.dataset.index);
       if (typeof window.setPlaylist === "function") window.setPlaylist(tracks, false);
       if (typeof window.playTrack === "function") window.playTrack(index);
-      highlightRow(index);
+      await highlightRow(index);
     });
   });
 
-  function highlightRow(index) {
-    const rows = container.querySelectorAll(".song-row");
-    rows.forEach((r) => r.classList.remove("bg-gradient-to-r", "from-[#1DB954]/20", "to-transparent"));
+  async function highlightRow(index) {
+    const allRows = container.querySelectorAll(".song-row");
+    allRows.forEach((r) => {
+      r.classList.remove("bg-gradient-to-r", "from-[#1DB954]/20", "to-transparent");
+      r.style.backgroundImage = "";
+      r.style.boxShadow = "";
+    });
+
     const target = container.querySelector(`.song-row[data-index="${index}"]`);
-    if (target) target.classList.add("bg-gradient-to-r", "from-[#1DB954]/20", "to-transparent");
+    if (!target) return;
+
+    target.classList.add("bg-gradient-to-r", "from-[#1DB954]/20", "to-transparent");
+
+    let color = null;
+    if (target.dataset.color) {
+      try { color = JSON.parse(target.dataset.color); } catch(e){ color = null; }
+    }
+
+    const img = target.querySelector(".row-cover");
+    if (!color) {
+      color = await getDominantColorFromImageElement(img).catch(() => null);
+      if (!color) color = await getDominantColorFromUrl(img?.src).catch(() => null);
+      if (!color) color = { r: 29, g: 185, b: 84, hex: "#1DB954" }; // fallback
+      target.dataset.color = JSON.stringify(color);
+    }
+
+    applyGradientToRow(target, color);
+    applyGradientToHeader(container, color);
 
     const t = tracks[index];
     if (t) {
@@ -160,23 +204,47 @@ export function openSongsPage(trackId, options = {}) {
       if (headerImg) headerImg.src = t.cover || "/img/default.jpg";
       if (headerTitle) headerTitle.textContent = t.title || "";
       if (headerArtist) headerArtist.textContent = `${t.artist || ""} • ${tracks.length} songs`;
-      window.__currentSongsView = window.__currentSongsView || {};
-      window.__currentSongsView.selectedIndex = index;
-      window.__currentSongsView.playlistIds = tracks.map(t => String(t.id));
+
+      const textColor = contrastTextColor(color);
+      if (headerTitle) headerTitle.style.color = textColor === "#fff" ? "#fff" : "#000";
     }
+
+    window.__currentSongsView = window.__currentSongsView || {};
+    window.__currentSongsView.selectedIndex = index;
+    window.__currentSongsView.playlistIds = tracks.map(t => String(t.id));
   }
 
   if (options.autoplay) {
     if (typeof window.setPlaylist === "function") window.setPlaylist(tracks, false);
     if (typeof window.playTrack === "function") window.playTrack(idx);
+    highlightRow(idx);
+  } else {
+    highlightRow(idx);
   }
 
-  // initialize __currentSongsView
+  window.__applySongColor = async function(containerEl, targetEl, coverUrl) {
+    if (!targetEl || !containerEl) return;
+    let color = null;
+    if (targetEl.dataset.color) {
+      try { color = JSON.parse(targetEl.dataset.color); } catch(e) { color = null; }
+    }
+    if (!color) {
+      const img = targetEl.querySelector(".row-cover");
+      color = await getDominantColorFromImageElement(img).catch(() => null);
+      if (!color) color = await getDominantColorFromUrl(coverUrl).catch(() => null);
+      if (!color) color = { r: 29, g: 185, b: 84, hex: "#1DB954" };
+      targetEl.dataset.color = JSON.stringify(color);
+    }
+    applyGradientToRow(targetEl, color);
+    applyGradientToHeader(containerEl, color);
+  };
+
   window.__currentSongsView = {
     playlistIds: tracks.map(t => String(t.id)),
     selectedIndex: idx
   };
 }
+
 
 document.addEventListener("player:trackChange", (e) => {
   try {
@@ -208,6 +276,11 @@ document.addEventListener("player:trackChange", (e) => {
         if (headerArtist && track)
           headerArtist.textContent = `${track.artist || ""} • ${incomingIds.length} songs`;
         window.__currentSongsView.selectedIndex = idx;
+
+        if (typeof window.__applySongColor === "function") {
+          window.__applySongColor(container, target, track?.cover);
+        }
+
       }
       return;
     }
@@ -221,7 +294,6 @@ document.addEventListener("player:trackChange", (e) => {
   }
 });
 
-// helpers
 function arraysEqual(a, b) {
   if (!a || !b) return false;
   if (a.length !== b.length) return false;
@@ -237,3 +309,138 @@ function escapeHtml(s) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 }
+
+function rgbToHex([r, g, b]) {
+  const toHex = (v) => v.toString(16).padStart(2, "0");
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+function contrastTextColor({ r, g, b }) {
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+  return yiq >= 128 ? "#000" : "#fff";
+}
+
+
+function getDominantColorFromImageElement(img) {
+  return new Promise((resolve) => {
+    if (!img) return resolve(null);
+
+    function process() {
+      try {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const W = 40;
+        const H = Math.round((img.naturalHeight / img.naturalWidth) * W) || 40;
+        canvas.width = W;
+        canvas.height = H;
+        ctx.drawImage(img, 0, 0, W, H);
+
+        const data = ctx.getImageData(0, 0, W, H).data;
+        const buckets = {}; 
+        let total = 0;
+
+        for (let i = 0; i < data.length; i += 4) {
+          const a = data[i + 3];
+          if (a < 125) continue;
+
+          let r = data[i], g = data[i + 1], b = data[i + 2];
+
+          
+          if (r > 240 && g > 240 && b > 240) continue;
+          if (r < 10 && g < 10 && b < 10) continue;
+
+          
+          const qr = r >> 4;
+          const qg = g >> 4;
+          const qb = b >> 4;
+          const key = (qr << 8) | (qg << 4) | qb;
+
+          if (!buckets[key]) buckets[key] = { count: 0, rSum: 0, gSum: 0, bSum: 0 };
+          buckets[key].count++;
+          buckets[key].rSum += r;
+          buckets[key].gSum += g;
+          buckets[key].bSum += b;
+          total++;
+        }
+
+        let best = null;
+        for (const key in buckets) {
+          if (!best || buckets[key].count > buckets[best].count) best = key;
+        }
+
+        if (!best) {
+          
+          let rSum = 0, gSum = 0, bSum = 0, cnt = 0;
+          for (let i = 0; i < data.length; i += 4) {
+            const a = data[i + 3]; if (a < 125) continue;
+            rSum += data[i]; gSum += data[i + 1]; bSum += data[i + 2]; cnt++;
+          }
+          if (cnt === 0) return resolve(null);
+          const r = Math.round(rSum / cnt), g = Math.round(gSum / cnt), b = Math.round(bSum / cnt);
+          return resolve({ r, g, b, hex: rgbToHex([r, g, b]) });
+        }
+
+        const bucket = buckets[best];
+        const r = Math.round(bucket.rSum / bucket.count);
+        const g = Math.round(bucket.gSum / bucket.count);
+        const b = Math.round(bucket.bSum / bucket.count);
+        resolve({ r, g, b, hex: rgbToHex([r, g, b]) });
+      } catch (err) {
+      
+        resolve(null);
+      }
+    }
+
+    if (img.complete && img.naturalWidth) process();
+    else {
+      const onload = () => { img.removeEventListener("load", onload); img.removeEventListener("error", onerror); process(); };
+      const onerror = () => { img.removeEventListener("load", onload); img.removeEventListener("error", onerror); resolve(null); };
+      img.addEventListener("load", onload);
+      img.addEventListener("error", onerror);
+    }
+  });
+}
+
+
+function getDominantColorFromUrl(url) {
+  return new Promise((resolve) => {
+    if (!url) return resolve(null);
+    const tmp = new Image();
+    tmp.crossOrigin = "Anonymous";
+    tmp.src = url;
+    tmp.onload = async () => {
+      const clr = await getDominantColorFromImageElement(tmp);
+      resolve(clr);
+    };
+    tmp.onerror = () => resolve(null);
+  });
+}
+
+
+function applyGradientToRow(row, color) {
+  if (!row) return;
+  if (!color) {
+    
+    color = { r: 29, g: 185, b: 84, hex: "#1DB954" };
+  }
+  const { r, g, b } = color;
+
+  row.style.backgroundImage = `linear-gradient(90deg, rgba(${r},${g},${b},0.18) 0%, rgba(${r},${g},${b},0.06) 40%, transparent 100%)`;
+  row.style.boxShadow = `inset 6px 0 18px rgba(${r},${g},${b},0.07)`;
+}
+
+
+function applyGradientToHeader(container, color) {
+  if (!container) return;
+  if (!color) color = { r: 29, g: 185, b: 84 };
+  const { r, g, b } = color;
+
+  const bgWrap = container.querySelector(".songs-page .absolute.inset-0");
+  if (!bgWrap) return;
+  const overlay = bgWrap.querySelector("div");
+  if (!overlay) return;
+
+  overlay.style.background = `linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(${r},${g},${b},0.10) 30%, rgba(0,0,0,0.95) 100%)`;
+  overlay.style.transition = "background 300ms ease";
+}
+

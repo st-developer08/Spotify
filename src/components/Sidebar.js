@@ -6,10 +6,10 @@ export function createSidebar() {
   const sidebar = document.querySelector("#sidebar");
   if (!sidebar) return;
 
-  sidebar.className = "flex flex-col gap-2 w-full h-full overflow-hidden";
+  sidebar.className ="hidden md:flex flex-col gap-2 w-full h-[95%] overflow-hidden";
 
   sidebar.innerHTML = `
-    <div class="bg-[#191919] rounded-xl flex flex-col flex-1 min-h-0 overflow-hidden h-full">
+    <div class="bg-[#0f0f0f] rounded-xl flex flex-col flex-1 min-h-0 overflow-hidden h-full">
       <div class="flex items-center justify-between px-4 pt-4 pb-2 flex-shrink-0">
         <div class="flex items-center gap-3 text-sm font-semibold text-gray-400 hover:text-white transition-colors cursor-pointer">
           <img src="/svg/library.svg" class="w-5 h-5" alt="library" />
@@ -22,12 +22,12 @@ export function createSidebar() {
     </div>
   `;
 
-  // also fill mobile placeholder if exists
+  
   const mobileHolder = document.getElementById("mobile-sidebar-placeholder");
-  if (mobileHolder) {
-    // create a lightweight copy (not interactive heavy) — we'll still wire click handlers below
-    mobileHolder.innerHTML = `<ul id="mobile-sidebar-tracks" class="flex flex-col gap-2"></ul>`;
-  }
+if (mobileHolder) {
+  mobileHolder.innerHTML = `<ul id="mobile-sidebar-tracks" class="flex flex-col gap-2"></ul>`;
+}
+
 
   const list = sidebar.querySelector("#sidebar-tracks");
   const mobileList = document.querySelector("#mobile-sidebar-tracks");
@@ -98,7 +98,6 @@ export function createSidebar() {
       li.querySelector(".playlist-artist").classList.add("text-gray-300");
       li.querySelector(".active-icon").classList.remove("hidden");
 
-      // same for mobile clone (if exists)
       if (cloneLi) {
         cloneLi.classList.add("bg-gradient-to-r", "from-[#1db95433]", "to-transparent");
         const mimg = cloneLi.querySelector("img");
@@ -107,7 +106,6 @@ export function createSidebar() {
         if (mt) mt.classList.remove("text-white"), mt.classList.add("text-[#1DB954]");
       }
 
-      // on mobile, close offcanvas after click
       const offcanvas = document.getElementById("offcanvas-sidebar");
       if (offcanvas && window.innerWidth < 768) {
         offcanvas.classList.add("translate-x-[-100%]", "opacity-0");
@@ -120,14 +118,12 @@ export function createSidebar() {
 
     list.appendChild(li);
 
-    // add mobile clone
     if (mobileList) {
       cloneLi.addEventListener("click", handleClick);
       mobileList.appendChild(cloneLi);
     }
   });
 
-  // subscribe to player changes
   const sidebarIds = db.sidebarTracks.map((t) => String(t.id));
 
   document.addEventListener("player:trackChange", (e) => {
@@ -163,7 +159,7 @@ export function createSidebar() {
         clearSidebarActive();
       }
     } catch (err) {
-      console.warn("sidebar sync error:", err);
+      alert.warn("sidebar sync error:", err);
     }
   });
 
