@@ -42,9 +42,34 @@ export function createHeader() {
     </nav>
 
     <div class="flex items-center gap-3">
-      <button class="hidden md:inline-block rounded-full bg-[#F2F2F2] px-4 py-2 font-bold text-[#191919] text-sm hover:scale-105 transition">Explore Premium</button>
-      <a href="#"><img class="w-9 h-9 rounded-full hover:scale-110 transition" src="/svg/avatar.svg" alt="Avatar" /></a>
+  <button
+    class="hidden md:inline-block rounded-full bg-[#1DB954] text-black px-5 py-2 font-bold text-sm
+           hover:scale-105 hover:bg-[#1ed760] active:scale-95 transition shadow-lg">
+    Explore Premium
+  </button>
+
+  <div class="relative">
+    <button id="avatarBtn"
+      class="flex items-center justify-center w-9 h-9 rounded-full overflow-hidden
+             ring-2 ring-transparent hover:ring-[#1DB954] transition duration-200">
+      <img src="/img/l_lawliet.jpg" alt="Avatar"
+           class="w-full h-full object-cover" />
+    </button>
+
+    <div id="avatarMenu"
+      class="absolute right-0 mt-3 w-48 bg-neutral-900 text-white text-sm rounded-xl shadow-xl
+             opacity-0 scale-95 origin-top-right pointer-events-none transition-all duration-200 z-50">
+      <a href="#" class="block px-4 py-3 rounded-t-xl hover:bg-neutral-800 transition"> Profile</a>
+      <a href="#" class="block px-4 py-3 hover:bg-neutral-800 transition"> Settings</a>
+      <a href="#" class="block px-4 py-3 hover:bg-neutral-800 transition"> Dark Mode</a>
+      <div class="border-t border-neutral-700 my-1"></div>
+      <a href="#" class="block px-4 py-3 rounded-b-xl text-red-400 hover:bg-neutral-800 transition"> Log out</a>
     </div>
+  </div>
+</div>
+
+
+
   `;
   const burgerBtn = header.querySelector("#burger-btn");
   if (burgerBtn) burgerBtn.setAttribute("type", "button");
@@ -173,16 +198,37 @@ export function createHeader() {
       : t.artist;
     return `
       <div role="option" aria-selected="false" data-search-index="${i}"
-        class="search-item group flex items-center gap-3 px-3 py-2 hover:bg-neutral-800 cursor-pointer transition-all duration-150 rounded-md">
-        <img loading="lazy" src="${t.cover}" alt="${t.title}" class="w-12 h-12 rounded-md object-cover shadow-sm group-hover:scale-105 transition-transform"/>
-        <div class="flex flex-col min-w-0">
-          <div class="truncate text-sm font-semibold text-white">${titleHtml}</div>
-          <div class="truncate text-xs text-neutral-400">${artistHtml}</div>
-        </div>
-        <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
-          <svg xmlns="http://www.w3.org/2000/svg" class="ring-emerald-600 rounded-xl w-8 h-8 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-      </div>
+  class="search-item group flex items-center gap-3 px-3 py-2 rounded-lg
+         hover:bg-gradient-to-r hover:from-neutral-800/70 hover:to-neutral-700/40
+         cursor-pointer transition-all duration-200 ease-out
+         focus-within:ring-2 focus-within:ring-white/50">
+
+  <div class="relative shrink-0">
+    <img loading="lazy" src="${t.cover}" alt="${t.title}"
+      class="w-12 h-12 rounded-md object-cover shadow-md 
+             group-hover:scale-105 group-hover:shadow-lg transition-transform duration-200 ease-out"/>
+    <div class="absolute inset-0 rounded-md bg-black/30 opacity-0 group-hover:opacity-100 transition"></div>
+  </div>
+
+  <div class="flex flex-col min-w-0">
+    <div class="truncate text-sm font-semibold text-white group-hover:text-white transition-colors">
+      ${titleHtml}
+    </div>
+    <div class="truncate text-xs text-neutral-400 group-hover:text-neutral-200 transition-colors">
+      ${artistHtml}
+    </div>
+  </div>
+
+  <div class="ml-auto opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-200">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         class="rounded-full w-9 h-9 p-2 bg-green-500 text-white hover:bg-green-600 transition"
+         fill="currentColor" viewBox="0 0 24 24">
+      <path d="M8 5v14l11-7z"/>
+    </svg>
+  </div>
+</div>
+
+
     `;
   };
 
@@ -198,7 +244,7 @@ export function createHeader() {
     const maxShow = 8;
     const shown = results.slice(0, maxShow);
     const html = `
-      <div class="px-3 py-2 text-xs text-neutral-400 font-semibold">Tracks</div>
+      <div class="px-2 py-2 text-sm text-neutral-400 font-semibold">Tracks</div>
       ${shown.map((t, i) => buildItemHTML(t, i, query)).join("")}
       ${
         results.length > maxShow
@@ -354,7 +400,7 @@ export function createHeader() {
     input.value = "";
     clearBtn.classList.add("opacity-0", "pointer-events-none");
     closeDropdown();
-    input.focus();
+    input.blur();
   });
 
   document.addEventListener("click", (e) => {
@@ -366,6 +412,26 @@ export function createHeader() {
       e.preventDefault();
       input.focus();
       input.select();
+    }
+  });
+
+  const btn = document.getElementById("avatarBtn");
+  const menu = document.getElementById("avatarMenu");
+
+  btn.addEventListener("click", () => {
+    const isOpen = menu.classList.contains("opacity-100");
+    menu.classList.toggle("opacity-100", !isOpen);
+    menu.classList.toggle("scale-100", !isOpen);
+    menu.classList.toggle("opacity-0", isOpen);
+    menu.classList.toggle("scale-95", isOpen);
+    menu.classList.toggle("pointer-events-auto", !isOpen);
+    menu.classList.toggle("pointer-events-none", isOpen);
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.add("opacity-0", "scale-95", "pointer-events-none");
+      menu.classList.remove("opacity-100", "scale-100", "pointer-events-auto");
     }
   });
 }

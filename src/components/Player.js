@@ -163,6 +163,7 @@ export function createPlayer(initialTracks = []) {
     if (!playlist.length || index < 0 || index >= playlist.length) {
       cover.src = "/svg/whiteSpotify.svg";
       title.textContent = "Your Track";
+      title.className = "text-white font-semibold text-lg truncate transition-colors duration-300 hover:text-[#1DB954]";
       artist.textContent = "";
       audio.removeAttribute("src");
       progressBar && (progressBar.value = 0);

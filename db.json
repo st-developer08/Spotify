@@ -134,6 +134,41 @@
     "artist": "The Weeknd",
     "cover": "/img/Blinding Lights.jpg",
     "file": "/music/The_Weeknd_-_Blinding_Lights_Official_Video-[4NRXx6U8ABQ].m4a"
+  },
+  {
+    "id": 21,
+    "title": "Bad guy",
+    "artist": "Billie Eilish",
+    "cover": "/img/bad guy.jpg",
+    "file": "/music/Bad guy   Billie Eilish.mp3"
+  },
+  {
+    "id": 22,
+    "title": "Shape of You",
+    "artist": "Ed Sheeran",
+    "cover": "/img/Ed Sheran.webp",
+    "file": "/music/Shapeof you (Produse 101 Major Lazer remix)   Ed Sheeran.mp3"
+  },
+  {
+    "id": 23,
+    "title": "Poker Face",
+    "artist": "Lady Gaga",
+    "cover": "/img/pokerface.jpg",
+    "file": "/music/Pokerface (Originally Performed By Lady Gaga) [Karaoke Versi.mp3"
+  },
+  {
+    "id": 24,
+    "title": "Rolling in the Deep",
+    "artist": "Adele",
+    "cover": "/img/rolling.jpg",
+    "file": "/music/01 - Adele - Rolling In The Deep.mp3"
+  },
+  {
+    "id": 25,
+    "title": "Believer",
+    "artist": "Imagine Dragons",
+    "cover": "/img/believer.jpg",
+    "file": "/music/Believer.mp3"
   }
   ],
 
@@ -237,6 +272,43 @@
     "artist": "MC K.K",
     "cover": "/img/agudo magico.jpg",
     "file": "/music/Agudo_Mágico_3_MC_K_K_Dj_TG_Beats_Dj_Aurelio_MC_Lipivox_12.mp3"
+  }
+],
+  "listenToday": [
+  {
+    "id": 16,
+    "title": "Shape of You",
+    "artist": "Ed Sheeran",
+    "cover": "/img/Ed Sheran.webp",
+    "file": "/music/Shapeof you (Produse 101 Major Lazer remix)   Ed Sheeran.mp3"
+  },
+  {
+    "id": 17,
+    "title": "Bad guy",
+    "artist": "Billie Eilish",
+    "cover": "/img/bad guy.jpg",
+    "file": "/music/Bad guy   Billie Eilish.mp3"
+  },
+  {
+    "id": 18,
+    "title": "Poker Face",
+    "artist": "Lady Gaga",
+    "cover": "/img/pokerface.jpg",
+    "file": "/music/Pokerface (Originally Performed By Lady Gaga) [Karaoke Versi.mp3"
+  },
+  {
+    "id": 19,
+    "title": "Rolling in the Deep",
+    "artist": "Adele",
+    "cover": "/img/rolling.jpg",
+    "file": "/music/01 - Adele - Rolling In The Deep.mp3"
+  },
+  {
+    "id": 20,
+    "title": "Believer",
+    "artist": "Imagine Dragons",
+    "cover": "/img/believer.jpg",
+    "file": "/music/Believer.mp3"
   }
 ]
 

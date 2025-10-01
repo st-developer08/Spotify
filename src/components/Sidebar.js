@@ -9,11 +9,11 @@ export function createSidebar() {
   sidebar.className ="hidden md:flex flex-col gap-2 w-full h-[95%] overflow-hidden";
 
   sidebar.innerHTML = `
-    <div class="bg-[#0f0f0f] rounded-xl flex flex-col flex-1 min-h-0 overflow-hidden h-full">
+    <div class="bg-transparent bg-animated-dark  rounded-xl flex flex-col flex-1 min-h-0 overflow-hidden h-full">
       <div class="flex items-center justify-between px-4 pt-4 pb-2 flex-shrink-0">
         <div class="flex items-center gap-3 text-sm font-semibold text-gray-400 hover:text-white transition-colors cursor-pointer">
           <img src="/svg/library.svg" class="w-5 h-5" alt="library" />
-          <p class="text-lg font-bold text-white">Your Library</p>
+          <p class="text-lg font-bold text-white">My Library</p>
         </div>
       </div>
       <div class="flex-1 min-h-0 px-2 pb-4" data-simplebar>

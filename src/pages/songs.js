@@ -35,7 +35,12 @@ export function openSongsPage(trackId, options = {}) {
                transition-all duration-200 cursor-pointer group rounded-md"
         data-index="${i}" data-id="${t.id}"
       >
-        <td class="py-3 px-4 text-neutral-400 w-[48px] md:w-[60px] group-hover:text-white font-medium text-sm text-center">${i + 1}</td>
+        <td class="py-3 px-4 text-neutral-400 w-[48px] md:w-[60px] font-medium text-sm text-center">
+  <span class="group-hover:hidden block">${i + 1}</span>
+  <img src="/svg/white-play-table.svg" alt="" 
+       class="hidden group-hover:inline w-5 h-5 mx-auto" />
+</td>
+
 
         <td class="py-3 px-4 flex items-center gap-3 md:gap-4 min-w-[180px] md:min-w-[280px]">
           <div class="relative w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
@@ -54,9 +59,6 @@ export function openSongsPage(trackId, options = {}) {
 
         <td class="py-3 px-3 w-[56px] text-right">
           <button class="add-btn opacity-0 group-hover:opacity-100 transition inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-white/8">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-neutral-300 hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
           </button>
         </td>
       </tr>
@@ -189,7 +191,7 @@ export function openSongsPage(trackId, options = {}) {
     if (!color) {
       color = await getDominantColorFromImageElement(img).catch(() => null);
       if (!color) color = await getDominantColorFromUrl(img?.src).catch(() => null);
-      if (!color) color = { r: 29, g: 185, b: 84, hex: "#1DB954" }; // fallback
+      if (!color) color = { r: 29, g: 185, b: 84, hex: "#1DB954" }; 
       target.dataset.color = JSON.stringify(color);
     }
 

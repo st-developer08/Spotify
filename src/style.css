@@ -286,13 +286,22 @@ html, body {
   animation: spotify-gradient 18s ease infinite;
 }
 
-/* мягкая виньетка */
 .bg-animated-dark::before {
   content: "";
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at 30% 20%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
   pointer-events: none;
+}
+
+.spotify-title {
+  background: linear-gradient(-45deg, #1db954, #dfdada, #121212, #1ed760);
+  background-size: 400% 400%;
+  animation: spotify-gradient 18s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; 
+  color: transparent;
 }
 
 @keyframes spotify-gradient {
@@ -430,4 +439,17 @@ body.no-scroll {
   position: fixed;
   width: 100%;
   overflow: hidden;
+}
+
+
+.fade-in {
+  opacity: 0;
+  transform: scale(0.95);
+  animation: fadeIn 0.5s forwards;
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
