@@ -16,6 +16,7 @@ export function createHeader() {
         <a href="./index.html"><img class="w-9 md:w-10" src="/svg/white.svg" alt="Spotify Logo" /></a>
       </div>
     </div>
+    
 
     <nav class="flex items-center gap-2 flex-1 justify-center">
       <div id="main-nav" class="hidden md:flex items-center gap-2">
@@ -29,9 +30,16 @@ export function createHeader() {
           <img src="/svg/search-sidebar.svg" class="w-5 h-5 opacity-70" alt="search icon" />
         </span>
 
-        <input id="search-input" type="search" inputmode="search" autocomplete="off" placeholder="Artists, songs, or podcasts"
-          aria-label="Search" aria-expanded="false" aria-controls="search-dropdown"
-          class="w-full pl-14  py-[10px] text-white bg-neutral-900 rounded-full focus:bg-neutral-800 outline-none placeholder-gray-200 transition-all duration-200 " />
+       <input id="search-input" type="search" inputmode="search" autocomplete="off" placeholder="Artists, songs, or podcasts" aria-label="Search" aria-expanded="false" aria-controls="search-dropdown"
+  class="w-full pl-14 py-[10px] 
+         text-white placeholder-gray-200 
+         bg-neutral-900 rounded-full 
+         focus:bg-neutral-800 outline-none 
+         placeholder:text-sm sm:placeholder:text-base md:placeholder:text-lg 
+         text-sm sm:text-base md:text-lg
+         transition-all duration-200"
+/>
+
 
         <button id="clear-btn" aria-label="Clear search" class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 pointer-events-none transition-all duration-200">
           <img src="/svg/clearbtn.svg" class="w-3 h-3hv" alt="Clear" />
@@ -42,7 +50,7 @@ export function createHeader() {
     </nav>
 
     <div class="flex items-center gap-3">
-  <button
+  <a href="https://open.spotify.com/premium" target="_blank"><button
     class="hidden md:inline-block rounded-full bg-[#1DB954] text-black px-5 py-2 font-bold text-sm
            hover:scale-105 hover:bg-[#1ed760] active:scale-95 transition shadow-lg">
     Explore Premium

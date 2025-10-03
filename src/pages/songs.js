@@ -1,7 +1,38 @@
 import db from "../../db.json";
 
+function renderPreloader(container) {
+  container.innerHTML = `
+  <div class="songs-preloader relative h-full overflow-y-auto rounded-xl bg-black/80 shadow-xl p-8">
+    <div class="flex flex-col md:flex-row items-start md:items-end gap-8">
+      <div class="bg-neutral-800 rounded-2xl w-[200px] h-[200px] md:w-[280px] md:h-[280px]"></div>
+      <div class="flex-1 space-y-4">
+        <div class="bg-neutral-800 h-5 w-44 rounded"></div>
+        <div class="bg-neutral-700 h-12 w-80 rounded"></div>
+        <div class="flex gap-3">
+          <div class="bg-neutral-800 h-5 w-28 rounded"></div>
+          <div class="bg-neutral-800 h-5 w-20 rounded"></div>
+        </div>
+        <div class="flex gap-4 mt-4">
+          <div class="bg-neutral-700 h-12 w-28 rounded-xl"></div>
+          <div class="bg-neutral-800 h-12 w-12 rounded-md"></div>
+        </div>
+      </div>
+    </div>
 
-
+    <div class="mt-10 space-y-5">
+      ${Array(8).fill("").map(() => `
+        <div class="grid grid-cols-[70px_minmax(0,2fr)_1fr_1fr_70px] gap-6 items-center">
+          <div class="bg-neutral-800 h-5 w-10 rounded"></div>
+          <div class="bg-neutral-800 h-5 w-48 rounded"></div>
+          <div class="bg-neutral-800 h-5 w-40 rounded hidden md:block"></div>
+          <div class="bg-neutral-800 h-5 w-32 rounded hidden md:block"></div>
+          <div class="bg-neutral-800 h-5 w-12 rounded"></div>
+        </div>
+      `).join("")}
+    </div>
+  </div>
+  `;
+}
 
 
 export function openSongsPage(trackId, options = {}) {
@@ -13,34 +44,36 @@ export function openSongsPage(trackId, options = {}) {
 
   if (!container) return;
 
-  const tracks = Array.isArray(options.playlist)
-    ? options.playlist.slice()
-    : db.sidebarTracks.slice();
+  renderPreloader(container);
 
-  let idx =
-    typeof options.index === "number"
-      ? options.index
-      : tracks.findIndex((t) => String(t.id) === String(trackId));
-  if (idx < 0) idx = 0;
+  setTimeout(() => {
+    const tracks = Array.isArray(options.playlist)
+      ? options.playlist.slice()
+      : db.sidebarTracks.slice();
 
-  const selected =
-    tracks[idx] || tracks[0] || { cover: "/img/default.jpg", title: "Unknown", artist: "" };
+    let idx =
+      typeof options.index === "number"
+        ? options.index
+        : tracks.findIndex((t) => String(t.id) === String(trackId));
+    if (idx < 0) idx = 0;
 
-  const rowsHtml = tracks
-    .map((t, i) => {
-      const cover = t.cover || "/img/song-cover.png";
-      return `
+    const selected =
+      tracks[idx] || tracks[0] || { cover: "/img/default.jpg", title: "Unknown", artist: "" };
+
+    const rowsHtml = tracks
+      .map((t, i) => {
+        const cover = t.cover || "/img/song-cover.png";
+        return `
       <tr
         class="song-row ${i === idx ? "bg-gradient-to-r from-[#1DB954]/20 to-transparent" : "hover:bg-white/5"}
                transition-all duration-200 cursor-pointer group rounded-md"
         data-index="${i}" data-id="${t.id}"
       >
         <td class="py-3 px-4 text-neutral-400 w-[48px] md:w-[60px] font-medium text-sm text-center">
-  <span class="group-hover:hidden block">${i + 1}</span>
-  <img src="/svg/white-play-table.svg" alt="" 
-       class="hidden group-hover:inline w-5 h-5 mx-auto" />
-</td>
-
+          <span class="group-hover:hidden block">${i + 1}</span>
+          <img src="/svg/white-play-table.svg" alt="" 
+               class="hidden group-hover:inline w-5 h-5 mx-auto" />
+        </td>
 
         <td class="py-3 px-4 flex items-center gap-3 md:gap-4 min-w-[180px] md:min-w-[280px]">
           <div class="relative w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
@@ -63,10 +96,10 @@ export function openSongsPage(trackId, options = {}) {
         </td>
       </tr>
       `;
-    })
-    .join("");
+      })
+      .join("");
 
-  container.innerHTML = `
+    container.innerHTML = `
 <div class="songs-page relative h-full overflow-y-auto rounded-xl bg-black/80 shadow-xl">
   <div class="absolute inset-0 -z-10 overflow-hidden rounded-xl">
     <img src="${escapeHtml(selected.cover)}"
@@ -134,119 +167,121 @@ export function openSongsPage(trackId, options = {}) {
 </div>
 `;
 
-  const playAllBtn = container.querySelector("#play-all");
-  if (playAllBtn) {
-    playAllBtn.addEventListener("click", () => {
-      if (typeof window.setPlaylist === "function") window.setPlaylist(tracks, true);
-      else console.warn("setPlaylist not found");
+    const playAllBtn = container.querySelector("#play-all");
+    if (playAllBtn) {
+      playAllBtn.addEventListener("click", () => {
+        if (typeof window.setPlaylist === "function") window.setPlaylist(tracks, true);
+        else console.warn("setPlaylist not found");
+      });
+    }
+
+    const rows = Array.from(container.querySelectorAll(".song-row"));
+
+    (function precomputeColors(rowsList) {
+      rowsList.forEach((row) => {
+        if (row.dataset.color) return;
+        const img = row.querySelector(".row-cover");
+        if (!img) return;
+        getDominantColorFromImageElement(img).then((color) => {
+          if (!color) {
+            return getDominantColorFromUrl(img.src);
+          }
+          return color;
+        }).then((color) => {
+          if (color) row.dataset.color = JSON.stringify(color);
+        }).catch(() => {});
+      });
+    })(rows);
+
+    rows.forEach((row) => {
+      row.addEventListener("click", async () => {
+        const index = Number(row.dataset.index);
+        if (typeof window.setPlaylist === "function") window.setPlaylist(tracks, false);
+        if (typeof window.playTrack === "function") window.playTrack(index);
+        await highlightRow(index);
+      });
     });
-  }
 
-  const rows = Array.from(container.querySelectorAll(".song-row"));
+    async function highlightRow(index) {
+      const allRows = container.querySelectorAll(".song-row");
+      allRows.forEach((r) => {
+        r.classList.remove("bg-gradient-to-r", "from-[#1DB954]/20", "to-transparent");
+        r.style.backgroundImage = "";
+        r.style.boxShadow = "";
+      });
 
-  (function precomputeColors(rowsList) {
-    rowsList.forEach((row) => {
-      if (row.dataset.color) return;
-      const img = row.querySelector(".row-cover");
-      if (!img) return;
-      getDominantColorFromImageElement(img).then((color) => {
-        if (!color) {
-          return getDominantColorFromUrl(img.src);
-        }
-        return color;
-      }).then((color) => {
-        if (color) row.dataset.color = JSON.stringify(color);
-      }).catch(() => {});
-    });
-  })(rows);
+      const target = container.querySelector(`.song-row[data-index="${index}"]`);
+      if (!target) return;
 
-  rows.forEach((row) => {
-    row.addEventListener("click", async () => {
-      const index = Number(row.dataset.index);
+      target.classList.add("bg-gradient-to-r", "from-[#1DB954]/20", "to-transparent");
+
+      let color = null;
+      if (target.dataset.color) {
+        try { color = JSON.parse(target.dataset.color); } catch(e){ color = null; }
+      }
+
+      const img = target.querySelector(".row-cover");
+      if (!color) {
+        color = await getDominantColorFromImageElement(img).catch(() => null);
+        if (!color) color = await getDominantColorFromUrl(img?.src).catch(() => null);
+        if (!color) color = { r: 29, g: 185, b: 84, hex: "#1DB954" };
+        target.dataset.color = JSON.stringify(color);
+      }
+
+      applyGradientToRow(target, color);
+      applyGradientToHeader(container, color);
+
+      const t = tracks[index];
+      if (t) {
+        const headerImg = container.querySelector("section img.object-cover");
+        const headerTitle = container.querySelector("section h1, section h2");
+        const headerArtist = container.querySelector("section .text-neutral-300");
+        if (headerImg) headerImg.src = t.cover || "/img/default.jpg";
+        if (headerTitle) headerTitle.textContent = t.title || "";
+        if (headerArtist) headerArtist.textContent = `${t.artist || ""} • ${tracks.length} songs`;
+
+        const textColor = contrastTextColor(color);
+        if (headerTitle) headerTitle.style.color = textColor === "#fff";
+      }
+
+      window.__currentSongsView = window.__currentSongsView || {};
+      window.__currentSongsView.selectedIndex = index;
+      window.__currentSongsView.playlistIds = tracks.map(t => String(t.id));
+    }
+
+    if (options.autoplay) {
       if (typeof window.setPlaylist === "function") window.setPlaylist(tracks, false);
-      if (typeof window.playTrack === "function") window.playTrack(index);
-      await highlightRow(index);
-    });
-  });
-
-  async function highlightRow(index) {
-    const allRows = container.querySelectorAll(".song-row");
-    allRows.forEach((r) => {
-      r.classList.remove("bg-gradient-to-r", "from-[#1DB954]/20", "to-transparent");
-      r.style.backgroundImage = "";
-      r.style.boxShadow = "";
-    });
-
-    const target = container.querySelector(`.song-row[data-index="${index}"]`);
-    if (!target) return;
-
-    target.classList.add("bg-gradient-to-r", "from-[#1DB954]/20", "to-transparent");
-
-    let color = null;
-    if (target.dataset.color) {
-      try { color = JSON.parse(target.dataset.color); } catch(e){ color = null; }
+      if (typeof window.playTrack === "function") window.playTrack(idx);
+      highlightRow(idx);
+    } else {
+      highlightRow(idx);
     }
 
-    const img = target.querySelector(".row-cover");
-    if (!color) {
-      color = await getDominantColorFromImageElement(img).catch(() => null);
-      if (!color) color = await getDominantColorFromUrl(img?.src).catch(() => null);
-      if (!color) color = { r: 29, g: 185, b: 84, hex: "#1DB954" }; 
-      target.dataset.color = JSON.stringify(color);
-    }
+    window.__applySongColor = async function(containerEl, targetEl, coverUrl) {
+      if (!targetEl || !containerEl) return;
+      let color = null;
+      if (targetEl.dataset.color) {
+        try { color = JSON.parse(targetEl.dataset.color); } catch(e) { color = null; }
+      }
+      if (!color) {
+        const img = targetEl.querySelector(".row-cover");
+        color = await getDominantColorFromImageElement(img).catch(() => null);
+        if (!color) color = await getDominantColorFromUrl(coverUrl).catch(() => null);
+        if (!color) color = { r: 29, g: 185, b: 84, hex: "#1DB954" };
+        targetEl.dataset.color = JSON.stringify(color);
+      }
+      applyGradientToRow(targetEl, color);
+      applyGradientToHeader(containerEl, color);
+    };
 
-    applyGradientToRow(target, color);
-    applyGradientToHeader(container, color);
+    window.__currentSongsView = {
+      playlistIds: tracks.map(t => String(t.id)),
+      selectedIndex: idx
+    };
 
-    const t = tracks[index];
-    if (t) {
-      const headerImg = container.querySelector("section img.object-cover");
-      const headerTitle = container.querySelector("section h1, section h2");
-      const headerArtist = container.querySelector("section .text-neutral-300");
-      if (headerImg) headerImg.src = t.cover || "/img/default.jpg";
-      if (headerTitle) headerTitle.textContent = t.title || "";
-      if (headerArtist) headerArtist.textContent = `${t.artist || ""} • ${tracks.length} songs`;
-
-      const textColor = contrastTextColor(color);
-      if (headerTitle) headerTitle.style.color = textColor === "#fff";
-    }
-
-    window.__currentSongsView = window.__currentSongsView || {};
-    window.__currentSongsView.selectedIndex = index;
-    window.__currentSongsView.playlistIds = tracks.map(t => String(t.id));
-  }
-
-  if (options.autoplay) {
-    if (typeof window.setPlaylist === "function") window.setPlaylist(tracks, false);
-    if (typeof window.playTrack === "function") window.playTrack(idx);
-    highlightRow(idx);
-  } else {
-    highlightRow(idx);
-  }
-
-  window.__applySongColor = async function(containerEl, targetEl, coverUrl) {
-    if (!targetEl || !containerEl) return;
-    let color = null;
-    if (targetEl.dataset.color) {
-      try { color = JSON.parse(targetEl.dataset.color); } catch(e) { color = null; }
-    }
-    if (!color) {
-      const img = targetEl.querySelector(".row-cover");
-      color = await getDominantColorFromImageElement(img).catch(() => null);
-      if (!color) color = await getDominantColorFromUrl(coverUrl).catch(() => null);
-      if (!color) color = { r: 29, g: 185, b: 84, hex: "#1DB954" };
-      targetEl.dataset.color = JSON.stringify(color);
-    }
-    applyGradientToRow(targetEl, color);
-    applyGradientToHeader(containerEl, color);
-  };
-
-  window.__currentSongsView = {
-    playlistIds: tracks.map(t => String(t.id)),
-    selectedIndex: idx
-  };
+   
+  }, 450); 
 }
-
 
 document.addEventListener("player:trackChange", (e) => {
   try {
@@ -282,7 +317,6 @@ document.addEventListener("player:trackChange", (e) => {
         if (typeof window.__applySongColor === "function") {
           window.__applySongColor(container, target, track?.cover);
         }
-
       }
       return;
     }
@@ -322,7 +356,6 @@ function contrastTextColor({ r, g, b }) {
   return yiq >= 128 ? "#000" : "#fff";
 }
 
-
 function getDominantColorFromImageElement(img) {
   return new Promise((resolve) => {
     if (!img) return resolve(null);
@@ -338,7 +371,7 @@ function getDominantColorFromImageElement(img) {
         ctx.drawImage(img, 0, 0, W, H);
 
         const data = ctx.getImageData(0, 0, W, H).data;
-        const buckets = {}; 
+        const buckets = {};
         let total = 0;
 
         for (let i = 0; i < data.length; i += 4) {
@@ -347,11 +380,9 @@ function getDominantColorFromImageElement(img) {
 
           let r = data[i], g = data[i + 1], b = data[i + 2];
 
-          
           if (r > 240 && g > 240 && b > 240) continue;
           if (r < 10 && g < 10 && b < 10) continue;
 
-          
           const qr = r >> 4;
           const qg = g >> 4;
           const qb = b >> 4;
@@ -371,11 +402,14 @@ function getDominantColorFromImageElement(img) {
         }
 
         if (!best) {
-          
           let rSum = 0, gSum = 0, bSum = 0, cnt = 0;
           for (let i = 0; i < data.length; i += 4) {
-            const a = data[i + 3]; if (a < 125) continue;
-            rSum += data[i]; gSum += data[i + 1]; bSum += data[i + 2]; cnt++;
+            const a = data[i + 3];
+            if (a < 125) continue;
+            rSum += data[i];
+            gSum += data[i + 1];
+            bSum += data[i + 2];
+            cnt++;
           }
           if (cnt === 0) return resolve(null);
           const r = Math.round(rSum / cnt), g = Math.round(gSum / cnt), b = Math.round(bSum / cnt);
@@ -388,7 +422,6 @@ function getDominantColorFromImageElement(img) {
         const b = Math.round(bucket.bSum / bucket.count);
         resolve({ r, g, b, hex: rgbToHex([r, g, b]) });
       } catch (err) {
-      
         resolve(null);
       }
     }
@@ -402,7 +435,6 @@ function getDominantColorFromImageElement(img) {
     }
   });
 }
-
 
 function getDominantColorFromUrl(url) {
   return new Promise((resolve) => {
@@ -418,11 +450,9 @@ function getDominantColorFromUrl(url) {
   });
 }
 
-
 function applyGradientToRow(row, color) {
   if (!row) return;
   if (!color) {
-    
     color = { r: 29, g: 185, b: 84, hex: "#1DB954" };
   }
   const { r, g, b } = color;
@@ -430,7 +460,6 @@ function applyGradientToRow(row, color) {
   row.style.backgroundImage = `linear-gradient(90deg, rgba(${r},${g},${b},0.18) 0%, rgba(${r},${g},${b},0.06) 40%, transparent 100%)`;
   row.style.boxShadow = `inset 6px 0 18px rgba(${r},${g},${b},0.07)`;
 }
-
 
 function applyGradientToHeader(container, color) {
   if (!container) return;
@@ -445,4 +474,3 @@ function applyGradientToHeader(container, color) {
   overlay.style.background = `linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(${r},${g},${b},0.10) 30%, rgba(0,0,0,0.95) 100%)`;
   overlay.style.transition = "background 300ms ease";
 }
-

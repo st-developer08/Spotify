@@ -23,7 +23,6 @@ export function createPlayer(initialTracks = []) {
         </div>
       </div>
 
-      <!-- Center: controls (responsive) -->
       <div class="flex-1 flex flex-col items-center md:items-center gap-2">
         <div class="flex items-center gap-4 md:gap-7 text-white">
           <button id="random-btn" class="rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center transition-colors active:scale-95">
@@ -58,7 +57,6 @@ export function createPlayer(initialTracks = []) {
           </button>
         </div>
 
-        <!-- Progress bar: on mobile show small bar, on md show times -->
         <div class="flex items-center gap-3 w-full mt-1 md:mt-0">
           <span id="current-time" class="text-gray-400 text-xs hidden md:inline">0:00</span>
           <input id="progress-bar" type="range" min="0" max="100" value="0"

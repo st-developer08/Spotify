@@ -51,36 +51,38 @@ card.className = `
 `;
 
 card.innerHTML = `
-  <div class="">
-    <div class="w-[70px] h-[70px] rounded-xl   overflow-hidden shadow-md ">
+  <div class="flex items-center gap-3 w-full max-w-full">
+    <!-- обложка -->
+    <div class="relative min-w-[60px] h-[60px] md:min-w-[70px] md:h-[70px] rounded-xl overflow-hidden shadow-md group">
       <img 
         src="${track.cover}" 
         alt="${track.title}" 
-        class="w-full h-full object-cover 
-               transition-transform duration-700"
+        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
       />
-    </div>
-    <button class="absolute inset-0 flex items-center justify-center 
-                   text-white opacity-0 
-                   group-hover:opacity-100 transition-opacity duration-300">
-      
-    </button>
-    <button class="absolute bottom-6 z-20 right-3 w-12 h-12 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 shadow-lg">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" class="w-6 h-6">
-        <path d="M5 3v18l15-9-15-9z"/>
-      </svg>
-    </button>
-  </div>
 
-  <div class="flex flex-col overflow-hidden min-w-0">
-    <span class="text-white font-bold truncate text-sm md:text-lg">
-      ${track.title}
-    </span>
-    <span class="text-gray-400 text-xs md:text-sm truncate">
-      ${track.artist}
-    </span>
+      <button class="absolute inset-0 flex items-center justify-center 
+                     text-white opacity-0 group-hover:opacity-100 
+                     transition-opacity duration-300">
+      </button>
+
+      <button class="absolute bottom-3 right-3 w-10 h-10 md:w-12 md:h-12 bg-[#1DB954] rounded-full flex items-center justify-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" class="w-5 h-5 md:w-6 md:h-6">
+          <path d="M5 3v18l15-9-15-9z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex flex-col min-w-0 overflow-hidden">
+      <span class="text-white font-bold truncate text-sm sm:text-base md:text-lg lg:text-xl block w-full max-w-[65vw] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[320px]">
+        ${track.title}
+      </span>
+      <span class="text-gray-400 truncate text-xs sm:text-sm md:text-base lg:text-lg block w-full max-w-[60vw] sm:max-w-[220px] md:max-w-[260px] lg:max-w-[300px]">
+        ${track.artist}
+      </span>
+    </div>
   </div>
 `;
+
 
 
 
@@ -110,7 +112,7 @@ card.innerHTML = `
       </svg>
     </button>
   </div>
-  <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+  <div class="absolute bottom-0 pr-16 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
     <span class="text-white font-bold block truncate text-sm md:text-base">${pl.title}</span>
     <span class="text-gray-300 text-xs md:text-sm block truncate">${pl.artist}</span>
   </div>
@@ -151,7 +153,7 @@ card.innerHTML = `
       </svg>
     </button>
   </div>
-  <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+  <div class="absolute bottom-0 pr-16 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
     <span class="text-white font-bold block truncate text-sm md:text-base">${track.title}</span>
     <span class="text-gray-300 text-xs md:text-sm block truncate">${track.artist}</span>
   </div>
@@ -200,7 +202,7 @@ db.listenToday.forEach((track,index) => {
       </svg>
     </button>
   </div>
-  <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+  <div class="absolute bottom-0 pr-16 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
     <span class="text-white font-bold block truncate text-sm md:text-base">${track.title}</span>
     <span class="text-gray-300 text-xs md:text-sm block truncate">${track.artist}</span>
   </div>
@@ -215,6 +217,71 @@ card.addEventListener('click', () => {
 listenTodayContainer.appendChild(card)
 
 })
-  
 
+
+  const footer = document.createElement("footer");
+  footer.className = " text-gray-400 mt-12 px-8 py-12  ";
+
+  footer.innerHTML = `
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+    <div>
+      <h3 class="text-white font-bold mb-3">Компания</h3>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition-colors duration-200">О нас</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Вакансии</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">For the Record</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-white font-bold mb-3">Сообщества</h3>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Для исполнителей</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Для разработчиков</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Реклама</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Для инвесторов</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Для вендоров</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-white font-bold mb-3">Полезные ссылки</h3>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Справка</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Бесплатное мобильное приложение</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Популярное в разных странах</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Import your music</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-white font-bold mb-3">Планы Spotify</h3>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Индивидуальная подписка</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Spotify Premium</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Premium для двоих</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Premium для семьи</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Premium для студентов</a></li>
+        <li><a href="#" class="hover:text-white transition-colors duration-200">Бесплатная версия Spotify</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-gray-700 mt-8 pt-6 text-sm flex flex-wrap justify-between">
+    <div class="flex flex-wrap gap-4 mb-4 md:mb-0">
+      <a href="#" class="hover:text-white transition-colors duration-200">Юридическая информация</a>
+      <a href="#" class="hover:text-white transition-colors duration-200">Центр безопасности и конфиденциальности</a>
+      <a href="#" class="hover:text-white transition-colors duration-200">Политика конфиденциальности</a>
+      <a href="#" class="hover:text-white transition-colors duration-200">Файлы cookie</a>
+      <a href="#" class="hover:text-white transition-colors duration-200">О рекламе</a>
+      <a href="#" class="hover:text-white transition-colors duration-200">Специальные возможности</a>
+    </div>
+    <p>© 2025 Spotify AB</p>
+  </div>
+`;
+
+
+ playlist.querySelector(".convert .flex-1").appendChild(footer);
+
+  
 }
+
+
+
+
